@@ -1,7 +1,21 @@
 site_name: Documentation demo
 site_url : https://SailorUpiter.github.io/mkdocs
+repo_url: https://github.com/SailorUpiter/mkdocs.git
 theme:
   name: material
+  language: ru
+  icon:
+    repo: fontawesome/brands/github
+  features:
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.path
+    - navigation.top
+plugins:
+  - tags
+  - search
 site_author: g.ryzhov
 copyright: Trustinfo.ru, 2025
 markdown_extensions:
