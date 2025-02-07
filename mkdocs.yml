@@ -1,1 +1,10 @@
-site_name: My Docs
+site_name: Documentation demo
+site_url : https://SailorUpiter.github.io/mkdocs
+theme:
+  name: material
+site_author: g.ryzhov
+copyright: Trustinfo.ru, 2025
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
