@@ -27,6 +27,10 @@ theme:
 plugins:
   - tags
   - search
+extra:
+  analytics:
+    provider: google
+    property: G-WJRFTNJP0B
 site_author: g.ryzhov
 copyright: Trustinfo.ru, 2025
 markdown_extensions:
