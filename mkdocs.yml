@@ -20,10 +20,12 @@ theme:
   features:
     - navigation.instant
     - navigation.instant.progress
-    - navigation.tabs
-    - navigation.tabs.sticky
+    - navigation.sections
+#    - navigation.tabs
+#    - navigation.tabs.sticky
     - navigation.path
     - navigation.top
+    - navigation.prune   
 plugins:
   - tags
   - search
