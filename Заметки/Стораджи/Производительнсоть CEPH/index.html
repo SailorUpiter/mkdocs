@@ -1,0 +1,3761 @@
+
+<!doctype html>
+<html lang="ru" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="g.ryzhov">
+      
+      
+        <link rel="canonical" href="https://SailorUpiter.github.io/mkdocs/%D0%97%D0%B0%D0%BC%D0%B5%D1%82%D0%BA%D0%B8/%D0%A1%D1%82%D0%BE%D1%80%D0%B0%D0%B4%D0%B6%D0%B8/%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%81%D0%BE%D1%82%D1%8C%20CEPH/">
+      
+      
+        <link rel="prev" href="../%D0%9F%D0%BE%D0%B4%D0%B1%D0%BE%D1%80%20%D0%B4%D0%B8%D1%81%D0%BA%D0%BE%D0%B2%20%D0%B4%D0%BB%D1%8F%20%D0%91%D0%94/">
+      
+      
+        <link rel="next" href="../%D0%A3%D0%B2%D0%B5%D0%BB%D0%B8%D1%87%D0%B5%D0%BD%D0%B8%D0%B5%20%D1%80%D0%B0%D0%B7%D0%BC%D0%B5%D1%80%D0%B0%20%D0%B4%D0%B8%D1%81%D0%BA%D0%B0/">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.13">
+    
+    
+      
+        <title>Производительнсоть CEPH - Documentation demo</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-WJRFTNJP0B"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-WJRFTNJP0B",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-WJRFTNJP0B",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ceph" class="md-skip">
+          Перейти к содержанию
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Верхний колонтитул">
+    <a href="../../.." title="Documentation demo" class="md-header__button md-logo" aria-label="Documentation demo" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Documentation demo
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Производительнсоть CEPH
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Темное оформление"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Темное оформление" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Светлое оформление"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Светлое оформление" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Поиск" placeholder="Поиск" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Поиск">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Очистить" aria-label="Очистить" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Инициализация поиска
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/SailorUpiter/mkdocs.git" title="Перейти к репозиторию" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Навигация" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Documentation demo" class="md-nav__button md-logo" aria-label="Documentation demo" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Documentation demo
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/SailorUpiter/mkdocs.git" title="Перейти к репозиторию" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Welcome to MkDocs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Cisco%202960/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cisco 2960
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../infra_projec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Проект по построению инфраструктуры для хостинга платформ мониторинга
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../%D0%94%D0%BE%D0%B1%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5%20%D0%B0%D0%B3%D1%80%D0%B5%D0%B3%D0%B0%D1%86%D0%B8%D0%B8%20%D0%BD%D0%B0%20%D1%8F%D0%B4%D1%80%D0%BE%20%D1%81%D0%B5%D1%82%D0%B8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Добавление агрегации на ядро сети
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../%D0%9C%D0%B0%D1%80%D0%BA%D0%B8%D1%80%D0%BE%D0%B2%D0%BA%D0%B0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    dock
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Testfolder
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Testfolder
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../testfolder/testdoc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Testdoc
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Заметки
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Заметки
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Homelab/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Homelab
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Openstack/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    openstack
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    User data
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%D0%9F%D0%B8%D1%81%D1%8C%D0%BC%D0%BE%20%D0%BD%D0%B0%20%D0%B7%D0%B0%D0%BA%D1%83%D0%BF%D0%BA%D1%83/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Письмо на закупку
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%D0%9F%D0%BE%D0%B4%D0%BA%D0%BB%D1%8E%D1%87%D0%B5%D0%BD%D0%B8%D0%B5%20%D0%B2%D0%BD%D0%B5%D1%88%D0%BD%D0%B5%D0%B9%20%D1%81%D0%B5%D1%82%D0%B8./" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Подключение внешней сети.
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%D0%9F%D0%BE%D1%80%D1%82%20%D0%B4%D0%BB%D1%8F%20IMAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    note #imap #mail
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%D0%A1%D0%B4%D0%B0%D1%87%D0%B0%20%D1%81%D1%82%D0%BE%D0%B5%D0%BA%20%D0%B2%20%D0%B0%D1%80%D0%B5%D0%BD%D0%B4%D1%83%20%D0%BF%D0%BE%D1%8E%D0%BD%D0%B8%D1%82%D0%BD%D0%BE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Сдача стоек в аренду поюнитно
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%D0%A4%D0%BB%D1%8E%D0%BA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Флюк
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../Ansible/%D0%98%D0%BD%D0%B2%D0%B5%D0%BD%D1%82%D0%B0%D1%80%D1%8C/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Ansible
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../proxmox/K8S%20%D1%87%D0%B5%D1%80%D0%B5%D0%B7%20%D1%82%D0%BE%D1%84%D1%83%20%D0%BD%D0%B0%20%D0%BF%D1%80%D0%BE%D0%BA%D1%81%D0%B5/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Proxmox
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../%D0%98%D0%98/%D0%97%D0%B0%D0%BF%D0%B8%D1%81%D0%B8%20%D0%BE%20%D0%B8%D1%81%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B8%20%D0%98%D0%98%20gemma-3-12b-it-qat/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    ИИ
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../%D0%9A%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D1%8B/FIo/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Команды
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../%D0%9C%D1%8B%D1%81%D0%BB%D0%B8/Cloud-init/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Мысли
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../%D0%9F%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5/%D0%A1%D0%BA%D1%80%D0%B8%D0%BF%D1%82%20%D0%B4%D0%BB%D1%8F%20%D1%80%D0%B5%D0%B9%D0%B4%D0%BE%D0%B2/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Програмирование
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../%D0%A0%D0%B5%D0%B3%D0%BB%D0%B0%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/%D0%92%D0%B2%D0%B5%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5%20%D0%B2%20%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%83%20%D1%81%D0%B5%D1%80%D0%B2%D0%B5%D1%80%D0%BE%D0%B2/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Регламенты
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    
+  
+  
+  
+    <a href="../../%D0%A1%D0%B5%D1%80%D0%B2%D0%B5%D1%80%D0%B0/HP%20ILO/%D0%9E%D1%88%D0%B8%D0%B1%D0%BA%D0%B0%20SD%20%D0%BA%D0%B0%D1%80%D1%82%D1%8B/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Сервера
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../%D0%A1%D0%B5%D1%82%D0%B5%D0%B2%D1%8B%D0%B5%20%D0%B7%D0%B0%D0%BC%D0%B5%D1%82%D0%BA%D0%B8/BPDUGuard%2C%20STP%2C%20PortFast/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Сетевые заметки
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../%D0%A1%D1%81%D1%8B%D0%BB%D0%BA%D0%B8/%D0%93%D0%B8%D1%82%20%D1%85%D0%B0%D0%B1%20%D1%81%20%D1%81%D0%B5%D0%BB%D1%84%20%D1%85%D0%BE%D1%81%D1%82%D0%B5%D0%B4%20%D0%9F%D0%9E/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Ссылки
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_19" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_7_19" id="__nav_7_19_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Стораджи
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_19_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7_19">
+            <span class="md-nav__icon md-icon"></span>
+            Стораджи
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%D0%9F%D0%BE%D0%B4%D0%B1%D0%BE%D1%80%20%D0%B4%D0%B8%D1%81%D0%BA%D0%BE%D0%B2%20%D0%B4%D0%BB%D1%8F%20%D0%91%D0%94/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    note #storage #disk
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Производительнсоть CEPH
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Производительнсоть CEPH
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Содержание">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Содержание
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Тестирование дисков
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Тестирование дисков">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Лирическое отступление
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ceph_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Тестирование кластера Ceph
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Тестирование кластера Ceph">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rbd" class="md-nav__link">
+    <span class="md-ellipsis">
+      RBD
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#osd" class="md-nav__link">
+    <span class="md-ellipsis">
+      Отдельные OSD
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cephfs" class="md-nav__link">
+    <span class="md-ellipsis">
+      CephFS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#s3-rgw" class="md-nav__link">
+    <span class="md-ellipsis">
+      S3 (rgw)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Что использовать не надо
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rbd_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Про RBD и параллелизм
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      Тестирование сети
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-nvme" class="md-nav__link">
+    <span class="md-ellipsis">
+      Тест на 1 NVMe
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#blockdb" class="md-nav__link">
+    <span class="md-ellipsis">
+      Про размер block.db
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      Про вероятность потери данных
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      Драйвер виртуального диска и ФС
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cachewriteback" class="md-nav__link">
+    <span class="md-ellipsis">
+      cache=writeback
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      ФС
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#o_sync-vs-fsync-vs-hdparm-w-0" class="md-nav__link">
+    <span class="md-ellipsis">
+      O_SYNC vs fsync vs hdparm -W 0
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ssd" class="md-nav__link">
+    <span class="md-ellipsis">
+      Серверные SSD
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ceph-hddssd" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ceph HDD+SSD
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ceph HDD+SSD">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      Примечания
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_26" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#usb-" class="md-nav__link">
+    <span class="md-ellipsis">
+      Бонус: USB-флешки
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_27" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_28" class="md-nav__link">
+    <span class="md-ellipsis">
+      Апдейт
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vsan" class="md-nav__link">
+    <span class="md-ellipsis">
+      Бонус: висян (vSAN)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_29" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_30" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_33" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#yourcmcwiki" class="md-nav__link">
+    <span class="md-ellipsis">
+      YourcmcWiki
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%D0%A3%D0%B2%D0%B5%D0%BB%D0%B8%D1%87%D0%B5%D0%BD%D0%B8%D0%B5%20%D1%80%D0%B0%D0%B7%D0%BC%D0%B5%D1%80%D0%B0%20%D0%B4%D0%B8%D1%81%D0%BA%D0%B0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Увеличение размера диска
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../%D0%97%D0%B0%D0%BC%D0%B5%D1%80%D1%8B/%D0%97%D0%B0%D0%BC%D0%B5%D1%80%20nfs-stor%20%D0%BD%D0%B0%20%D0%BC%D0%B0%D1%88%D0%B8%D0%BD%D0%B5%20%D0%B7%D0%B0%D0%B1%D0%B1%D0%B8%D0%BA%D1%81%D0%B0%20%D0%BF%D0%B4%D1%83/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Замеры
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../%D0%A2%D1%83%D0%BB%D0%B7%D1%8B/%D0%9F%D1%80%D0%BE%D0%B2%D0%B5%D1%80%D0%BA%D0%B0%20%D0%BF%D0%BE%D1%87%D1%82%D0%BE%D0%B2%D0%BE%D0%B3%D0%BE%20%D1%81%D0%B5%D1%80%D0%B2%D0%B5%D1%80%D0%B0/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    Тулзы
+    
+  </span>
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Содержание">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Содержание
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Тестирование дисков
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Тестирование дисков">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Лирическое отступление
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ceph_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Тестирование кластера Ceph
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Тестирование кластера Ceph">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rbd" class="md-nav__link">
+    <span class="md-ellipsis">
+      RBD
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#osd" class="md-nav__link">
+    <span class="md-ellipsis">
+      Отдельные OSD
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cephfs" class="md-nav__link">
+    <span class="md-ellipsis">
+      CephFS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#s3-rgw" class="md-nav__link">
+    <span class="md-ellipsis">
+      S3 (rgw)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Что использовать не надо
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rbd_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Про RBD и параллелизм
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      Тестирование сети
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-nvme" class="md-nav__link">
+    <span class="md-ellipsis">
+      Тест на 1 NVMe
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#blockdb" class="md-nav__link">
+    <span class="md-ellipsis">
+      Про размер block.db
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      Про вероятность потери данных
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      Драйвер виртуального диска и ФС
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cachewriteback" class="md-nav__link">
+    <span class="md-ellipsis">
+      cache=writeback
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      ФС
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#o_sync-vs-fsync-vs-hdparm-w-0" class="md-nav__link">
+    <span class="md-ellipsis">
+      O_SYNC vs fsync vs hdparm -W 0
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ssd" class="md-nav__link">
+    <span class="md-ellipsis">
+      Серверные SSD
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ceph-hddssd" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ceph HDD+SSD
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ceph HDD+SSD">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      Примечания
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_26" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#usb-" class="md-nav__link">
+    <span class="md-ellipsis">
+      Бонус: USB-флешки
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_27" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_28" class="md-nav__link">
+    <span class="md-ellipsis">
+      Апдейт
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vsan" class="md-nav__link">
+    <span class="md-ellipsis">
+      Бонус: висян (vSAN)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_29" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_30" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_33" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#yourcmcwiki" class="md-nav__link">
+    <span class="md-ellipsis">
+      YourcmcWiki
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<p><a href="https://yourcmc.ru/wiki/%D0%A1%D0%BB%D1%83%D0%B6%D0%B5%D0%B1%D0%BD%D0%B0%D1%8F:%D0%9C%D0%BE%D0%B1%D0%B8%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5_%D0%BC%D0%B5%D0%BD%D1%8E" title="Открыть главное меню">Открыть главное меню</a></p>
+<ul>
+<li>Наблюдать за этой страницей</li>
+</ul>
+<h1 id="ceph">Производительность Ceph</h1>
+<p>Ссылки сюда (2) →</p>
+<p><a href="https://yourcmc.ru/wiki/%D0%A4%D0%B0%D0%B9%D0%BB:Ceph-funnel.svg"><img alt="Ceph-funnel.svg" src="https://yourcmc.ru/wiki/images/3/39/Ceph-funnel.svg" /></a></p>
+<p>Ceph — это SDS (по-русски — программная СХД), которая по некоторым параметрам является уникальной в своём роде, и в целом, умеет очень многое — S3, диски виртуалок, кластерную FS + огромный багаж дополнительных фич.</p>
+<p>И всё было бы хорошо — бери, ставь, запускай своё облако и руби бабло — если бы не один маленький нюанс: ПРОИЗВОДИТЕЛЬНОСТЬ. Терять 95 % производительности в Production-е разумным людям обычно жалко. «Облакам» типа AWS, GCP, Яндекса, по-видимому, не жалко — у них тоже собственные крафтовые SDS и они тоже тормозят примерно так же :-) но этот вопрос оставим — кто мы такие, чтобы их судить.</p>
+<p>В данной статье описано, каких показателей производительности можно добиться от цефа и как. Если вкратце, то примерным ориентиром служит доклад Nick Fisk «Low-Latency Ceph», в его исполнении Low Latency это 0.7 мс (на запись). Лучший результат с Ceph-ом получить практически невозможно (худший — легко). При этом 0.7 мс — это всего лишь примерно ~1500 iops в 1 поток. На чтение в идеальной ситуации можно получить где-то раза в 2 больше, то есть где-то до 3000 iops в 1 поток.</p>
+<p>Для сравнения: любой самый дешёвый серверный SSD-диск раз в 10 быстрее, средний порядок задержки SSD на запись — 0.01-0.04 мс, на чтение — 0.1 мс.</p>
+<p><strong>UPDATE: Догнать (почти догнать) SDS-кой локальной диск можно, я это сделал в своём собственном проекте — Vitastor: <a href="https://vitastor.io/">https://vitastor.io</a> :-) это блочная SDS с архитектурой, похожей на Ceph, но при этом БЫСТРАЯ — в тесте на SATA SSD кластере задержка и чтения, и записи составила 0.14 мс. На том же кластере задержка записи у Ceph была 1 мс, а чтения — 0.57 мс. Детали в <a href="https://yourcmc.ru/git/vitalif/vitastor/src/branch/master/README.md">README</a> — смотрите по ссылке.</strong></p>
+<h2 id="_1"></h2>
+<p>Содержание</p>
+<ul>
+<li>
+<p><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#.D0.91.D0.B5.D0.BD.D1.87.D0.BC.D0.B0.D1.80.D0.BA.D0.B8.D0.BD.D0.B3">Бенчмаркинг</a></p>
+<ul>
+<li>
+<p><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#.D0.A2.D0.B5.D1.81.D1.82.D0.B8.D1.80.D0.BE.D0.B2.D0.B0.D0.BD.D0.B8.D0.B5_.D0.B4.D0.B8.D1.81.D0.BA.D0.BE.D0.B2">Тестирование дисков</a></p>
+<ul>
+<li><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#.D0.9B.D0.B8.D1.80.D0.B8.D1.87.D0.B5.D1.81.D0.BA.D0.BE.D0.B5_.D0.BE.D1.82.D1.81.D1.82.D1.83.D0.BF.D0.BB.D0.B5.D0.BD.D0.B8.D0.B5">Лирическое отступление</a></li>
+</ul>
+</li>
+<li>
+<p><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#.D0.A2.D0.B5.D1.81.D1.82.D0.B8.D1.80.D0.BE.D0.B2.D0.B0.D0.BD.D0.B8.D0.B5_.D0.BA.D0.BB.D0.B0.D1.81.D1.82.D0.B5.D1.80.D0.B0_Ceph">Тестирование кластера Ceph</a></p>
+<ul>
+<li>
+<p><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#RBD">RBD</a></p>
+</li>
+<li>
+<p><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#.D0.9E.D1.82.D0.B4.D0.B5.D0.BB.D1.8C.D0.BD.D1.8B.D0.B5_OSD">Отдельные OSD</a></p>
+</li>
+<li>
+<p><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#CephFS">CephFS</a></p>
+</li>
+<li>
+<p><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#S3_.28rgw.29">S3 (rgw)</a></p>
+</li>
+<li>
+<p><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#.D0.A7.D1.82.D0.BE_.D0.B8.D1.81.D0.BF.D0.BE.D0.BB.D1.8C.D0.B7.D0.BE.D0.B2.D0.B0.D1.82.D1.8C_.D0.BD.D0.B5_.D0.BD.D0.B0.D0.B4.D0.BE">Что использовать не надо</a></p>
+</li>
+<li>
+<p><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#.D0.9F.D1.80.D0.BE_RBD_.D0.B8_.D0.BF.D0.B0.D1.80.D0.B0.D0.BB.D0.BB.D0.B5.D0.BB.D0.B8.D0.B7.D0.BC">Про RBD и параллелизм</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#.D0.A2.D0.B5.D1.81.D1.82.D0.B8.D1.80.D0.BE.D0.B2.D0.B0.D0.BD.D0.B8.D0.B5_.D1.81.D0.B5.D1.82.D0.B8">Тестирование сети</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#.D0.9E_.D1.82.D1.80.D0.B0.D0.BD.D0.B7.D0.B0.D0.BA.D1.86.D0.B8.D0.BE.D0.BD.D0.BD.D0.BE.D1.81.D1.82.D0.B8_.D0.B7.D0.B0.D0.BF.D0.B8.D1.81.D0.B8">О транзакционности записи</a></p>
+</li>
+<li>
+<p><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#.D0.9A.D0.BE.D0.BD.D0.B4.D0.B5.D0.BD.D1.81.D0.B0.D1.82.D0.BE.D1.80.D1.8B">Конденсаторы</a></p>
+</li>
+<li>
+<p><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#Bluestore_vs_Filestore">Bluestore vs Filestore</a></p>
+<ul>
+<li>
+<p><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#.D0.A2.D0.B5.D1.81.D1.82_.D0.BD.D0.B0_1_NVMe">Тест на 1 NVMe</a></p>
+</li>
+<li>
+<p><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#.D0.9F.D1.80.D0.BE_.D1.80.D0.B0.D0.B7.D0.BC.D0.B5.D1.80_block.db">Про размер block.db</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#RGW_vs_Minio">RGW vs Minio</a></p>
+</li>
+<li>
+<p><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#.D0.A1.D0.BD.D0.B0.D0.BF.D1.88.D0.BE.D1.82.D1.8B">Снапшоты</a></p>
+</li>
+<li>
+<p><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#EC">EC</a></p>
+<ul>
+<li><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#.D0.9F.D1.80.D0.BE_.D0.B2.D0.B5.D1.80.D0.BE.D1.8F.D1.82.D0.BD.D0.BE.D1.81.D1.82.D1.8C_.D0.BF.D0.BE.D1.82.D0.B5.D1.80.D0.B8_.D0.B4.D0.B0.D0.BD.D0.BD.D1.8B.D1.85">Про вероятность потери данных</a></li>
+</ul>
+</li>
+<li>
+<p><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#.D0.9A.D0.BE.D0.BD.D1.82.D1.80.D0.BE.D0.BB.D0.BB.D0.B5.D1.80.D1.8B">Контроллеры</a></p>
+</li>
+<li>
+<p><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#.D0.9F.D1.80.D0.BE.D1.86.D0.B5.D1.81.D1.81.D0.BE.D1.80.D1.8B">Процессоры</a></p>
+</li>
+<li>
+<p><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#.D0.A1.D0.B5.D1.82.D1.8C">Сеть</a></p>
+</li>
+<li>
+<p><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#.D0.9D.D0.B0.D1.81.D1.82.D1.80.D0.BE.D0.B9.D0.BA.D0.B0_.D0.B2.D0.B8.D1.80.D1.82.D1.83.D0.B0.D0.BB.D0.BE.D0.BA_.D0.B8_.D0.A4.D0.A1">Настройка виртуалок и ФС</a></p>
+<ul>
+<li>
+<p><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#.D0.94.D1.80.D0.B0.D0.B9.D0.B2.D0.B5.D1.80_.D0.B2.D0.B8.D1.80.D1.82.D1.83.D0.B0.D0.BB.D1.8C.D0.BD.D0.BE.D0.B3.D0.BE_.D0.B4.D0.B8.D1.81.D0.BA.D0.B0_.D0.B8_.D0.A4.D0.A1">Драйвер виртуального диска и ФС</a></p>
+</li>
+<li>
+<p><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#cache.3Dwriteback">cache=writeback</a></p>
+</li>
+<li>
+<p><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#.D0.A4.D0.A1">ФС</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#.D0.9E.D1.86.D0.B5.D0.BD.D0.BA.D0.B0_.D0.BF.D1.80.D0.BE.D0.B8.D0.B7.D0.B2.D0.BE.D0.B4.D0.B8.D1.82.D0.B5.D0.BB.D1.8C.D0.BD.D0.BE.D1.81.D1.82.D0.B8_.D0.BA.D0.BB.D0.B0.D1.81.D1.82.D0.B5.D1.80.D0.B0">Оценка производительности кластера</a></p>
+</li>
+<li>
+<p><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#.D0.9A.D0.B0.D1.80.D1.82.D0.B8.D0.BD.D0.B0_.D0.BC.D0.B0.D1.81.D0.BB.D0.BE.D0.BC_.C2.AB.D0.A2.D0.BE.D1.80.D0.BC.D0.BE.D0.B7.D1.8F.D1.89.D0.B8.D0.B9_.D0.BA.D1.8D.D1.88.C2.BB">Картина маслом «Тормозящий кэш»</a></p>
+<ul>
+<li>
+<p><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#O_SYNC_vs_fsync_vs_hdparm_-W_0">O_SYNC vs fsync vs hdparm -W 0</a></p>
+</li>
+<li>
+<p><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#.D0.A1.D0.B5.D1.80.D0.B2.D0.B5.D1.80.D0.BD.D1.8B.D0.B5_SSD">Серверные SSD</a></p>
+</li>
+<li>
+<p><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#Ceph_HDD.2BSSD">Ceph HDD+SSD</a></p>
+<ul>
+<li><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#.D0.9F.D1.80.D0.B8.D0.BC.D0.B5.D1.87.D0.B0.D0.BD.D0.B8.D1.8F">Примечания</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#.D0.9F.D0.BE.D1.87.D0.B5.D0.BC.D1.83_.D0.B2.D0.BE.D0.BE.D0.B1.D1.89.D0.B5_Bluestore_.D1.82.D0.B0.D0.BA.D0.BE.D0.B9_.D0.BC.D0.B5.D0.B4.D0.BB.D0.B5.D0.BD.D0.BD.D1.8B.D0.B9.3F">Почему вообще Bluestore такой медленный?</a></p>
+</li>
+<li>
+<p><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#DPDK_.D0.B8_SPDK">DPDK и SPDK</a></p>
+</li>
+<li>
+<p><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#RAID_WRITE_HOLE">RAID WRITE HOLE</a></p>
+</li>
+<li>
+<p><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#.D0.9A.D1.80.D0.B0.D1.82.D0.BA.D0.B8.D0.B9_.D1.8D.D0.BA.D1.81.D0.BA.D1.83.D1.80.D1.81_.D0.B2_.D1.83.D1.81.D1.82.D1.80.D0.BE.D0.B9.D1.81.D1.82.D0.B2.D0.BE_SSD_.D0.B8_.D1.84.D0.BB.D0.B5.D1.88-.D0.BF.D0.B0.D0.BC.D1.8F.D1.82.D0.B8">Краткий экскурс в устройство SSD и флеш-памяти</a></p>
+<ul>
+<li><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#.D0.91.D0.BE.D0.BD.D1.83.D1.81:_USB-.D1.84.D0.BB.D0.B5.D1.88.D0.BA.D0.B8">Бонус: USB-флешки</a></li>
+</ul>
+</li>
+<li>
+<p><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#.D0.9F.D1.80.D0.B8.D0.BC.D0.B5.D1.80_.D1.82.D0.B5.D1.81.D1.82.D0.B0_.D0.BE.D1.82_Micron">Пример теста от Micron</a></p>
+<ul>
+<li>
+<p><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#.D0.90.D0.BF.D0.B4.D0.B5.D0.B9.D1.82">Апдейт</a></p>
+</li>
+<li>
+<p><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#.D0.91.D0.BE.D0.BD.D1.83.D1.81:_.D0.B2.D0.B8.D1.81.D1.8F.D0.BD_.28vSAN.29">Бонус: висян (vSAN)</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#.D0.9C.D0.BE.D0.B4.D0.B5.D0.BB.D0.B8">Модели</a></p>
+</li>
+<li>
+<p><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#.D0.A0.D0.B5.D0.B7.D1.8E.D0.BC.D0.B5">Резюме</a></p>
+</li>
+<li>
+<p><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#.D0.9F.D1.80.D0.B8.D0.BC.D0.B5.D1.87.D0.B0.D0.BD.D0.B8.D0.B5">Примечание</a></p>
+</li>
+<li>
+<p><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#.D0.A1.D0.BC._.D1.82.D0.B0.D0.BA.D0.B6.D0.B5">См. также</a></p>
+</li>
+<li>
+<p><a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#.D0.A1.D0.BE.D0.B2.D0.B5.D1.82.D1.8B_.D0.BB.D1.83.D1.87.D1.88.D0.B8.D1.85_.D1.81.D0.BE.D0.B1.D0.B0.D0.BA.D0.BE.D0.B2.D0.BE.D0.B4.D0.BE.D0.B2">Советы лучших собаководов</a></p>
+</li>
+</ul>
+<h2 id="_2"></h2>
+<p>Бенчмаркинг</p>
+<p>Основные направления тестирования:</p>
+<ul>
+<li>Линейное чтение/запись (большими блоками)</li>
+<li>Пиковая производительность высоко-параллельного случайного чтения/записи мелкими блоками</li>
+<li>Задержка однопоточного случайного чтения мелкими блоками (4-8 Кб)</li>
+<li>Задержка однопоточной транзакционной записи мелкими блоками (4-8 Кб) — обычно последовательной, как в журнал СУБД, но в один поток это обычно слабо отличается от случайной</li>
+</ul>
+<p>Задержки обычно важнее простой пиковой производительности случайного чтения/записи, так как далеко не каждое приложение может загрузить диск при большом параллелизме / глубокой очереди (32-128 запросов).</p>
+<h3 id="_3">Тестирование дисков</h3>
+<p><a href="https://docs.google.com/spreadsheets/d/1E9-eXjzsKboiCCX-0u0r5fAjjufLKayaut_FOPxYZjc">SSD Bench Google Docs</a></p>
+<p>Сначала прогоните fio на голом диске:</p>
+<p><img alt="Warning icon.svg" src="https://yourcmc.ru/wiki/images/2/24/Warning_icon.svg" /> ВНИМАНИЕ! Для тех, кто в танке — fio-тест записи на диск ДЕСТРУКТИВНЫЙ. Не вздумайте запускать его на дисках/разделах, на которых есть нужные данные… например, журналы OSD (был прецедент).</p>
+<ul>
+<li>Перед тестированием попробуйте отключить кэш записи диска: hdparm -W 0 /dev/sdX (SATA-диски через SATA или HBA), sdparm --set WCE=0 /dev/sdX (SAS-диски). Не совсем ясно, почему, но эта операция на серверных SSD может увеличить IOPS-ы на 2 порядка (а может НЕ увеличить, поэтому пробуйте оба варианта — и W0, и W1). Также см.ниже <a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#.D0.9A.D0.B0.D1.80.D1.82.D0.B8.D0.BD.D0.B0_.D0.BC.D0.B0.D1.81.D0.BB.D0.BE.D0.BC_.C2.AB.D0.A2.D0.BE.D1.80.D0.BC.D0.BE.D0.B7.D1.8F.D1.89.D0.B8.D0.B9_.D0.BA.D1.8D.D1.88.C2.BB">#Картина маслом «Тормозящий кэш»</a>.</li>
+<li>Линейное чтение: fio -ioengine=libaio -direct=1 -invalidate=1 -name=test -bs=4M -iodepth=32 -rw=read -runtime=60 -filename=/dev/sdX</li>
+<li>Линейная запись: fio -ioengine=libaio -direct=1 -invalidate=1 -name=test -bs=4M -iodepth=32 -rw=write -runtime=60 -filename=/dev/sdX</li>
+<li>Пиковые IOPS случайного чтения: fio -ioengine=libaio -direct=1 -invalidate=1 -name=test -bs=4k -iodepth=128 -rw=randread -runtime=60 -filename=/dev/sdX</li>
+<li>Задержка случайного чтения: fio -ioengine=libaio -sync=1 -direct=1 -invalidate=1 -name=test -bs=4k -iodepth=1 -rw=randread -runtime=60 -filename=/dev/sdX</li>
+<li>Пиковые IOPS случайной записи: fio -ioengine=libaio -direct=1 -invalidate=1 -name=test -bs=4k -iodepth=128 -rw=randwrite -runtime=60 -filename=/dev/sdX</li>
+<li>Задержка записи в журнал: fio -ioengine=libaio -sync=1 -direct=1 -invalidate=1 -name=test -bs=4k -iodepth=1 -rw=write -runtime=60 -filename=/dev/sdX — также стоит повторить тот же тест с -fsync=1 вместо -sync=1 и принять худший результат, так как иногда бывает, что одним из методов sync игнорируется (зависит от контроллера).</li>
+<li>Задержка случайной записи: fio -ioengine=libaio -sync=1 -direct=1 -invalidate=1 -name=test -bs=4k -iodepth=1 -rw=randwrite -runtime=60 -filename=/dev/sdX</li>
+</ul>
+<p>«А почему так мало…» — см.ниже сагу про конденсаторы.</p>
+<p><img alt="Warning icon.svg" src="https://yourcmc.ru/wiki/images/2/24/Warning_icon.svg" /> Когда разворачиваете Ceph OSD на SSD — очень разумно не отдавать её под Ceph целиком, а оставить небольшой раздел (10-20 гб) пустым для будущего использования под бенчмаркинг. Ибо SSD имеют свойство со временем (или при забивании данными под 80%) начинать тормозить. Очень удобно иметь возможность гонять fio на пустом никем не используемом разделе.</p>
+<h4 id="_4">Лирическое отступление</h4>
+<p>Почему нужно тестировать именно так? Ведь в целом производительность диска зависит от многих параметров:</p>
+<ul>
+<li>Размер блока</li>
+<li>Режим — чтение, запись или смешанный режим чтение+запись в разных пропорциях</li>
+<li>Параллелизм — размер очереди и число потоков, то есть, в целом число одновременно запрашиваемых у диска операций</li>
+<li>Длительность теста</li>
+<li>Исходное состояние — пуст, заполнен линейной записью, заполнен случайной записью, заполнен случайной записью на протяжении какого-то времени и т. п.</li>
+<li>Распределение данных — например, 10% горячих данных и 90% холодных — или, например, определённое расположение горячих данных (в начале диска)</li>
+<li>Другие смешанные режимы тестов, например, тестирование одновременно с разными размерами блоков</li>
+</ul>
+<p>Также и результаты можно интерпретировать с разной степенью детализации — вместо простого среднего числа операций или мегабайт в секунду можно также приводить графики, гистограммы, перцентили и так далее — это, естественно, даст больше информации о поведении тестируемого образца.</p>
+<p>Есть и философская сторона тестов — например, производители серверных SSD иногда заявляют о необходимости подготовки диска к тестам путём 2-х кратной полной случайной перезаписи, чтобы нагрузить слой трансляции адресов диска, а я считаю, что это на самом деле ставит SSD в неправдоподобно плохие по сравнению с реальной нагрузкой условия; есть сторонники рисования графиков формата «задержка в зависимости от числа операций в секунду», что я считаю немного странным, но тоже возможным подходом — в нём, по сути, строится график F1(q) в зависимости от F2(q) и график обычно получается достаточно замысловатый — но для каких-то применений, может быть, и тоже разумный.</p>
+<p>В общем, бенчмаркингом заниматься можно бесконечно, и уж несколько дней, чтобы предоставить полную информацию, точно уйдёт. Этим обычно и занимаются ресурсы типа 3dnews в своих обзорах SSD. А мы не хотим сидеть несколько дней. Мы хотим обозначить набор тестов, которые можно провести быстро и сразу составить примерное представление о производительности.</p>
+<p>Посему общая идея — выделить несколько наиболее «крайних» режимов, протестировать диск в них и представить, что остальная часть «амплитудно-скоростной характеристики» диска является некоторой гладкой функцией в пределах изменения параметров между крайними точками. Тем более, что каждому из крайних режимов соответствует и реальное применение в своей категории приложений:</p>
+<ol>
+<li>Использующих в основном линейный или крупноблочный доступ. Для таких приложений наиболее важная характеристика — производительность линейного доступа в мегабайтах в секунду. Отсюда режим тестирования линейным доступом 4 МБ блоком со средней очередью — 16-32 операции. Результаты — только в МБ/с.</li>
+<li>Использующих случайный доступ мелким блоком и при этом способных к распараллеливанию. Отсюда — режимы тестирования случайным доступом 4 КБ блоком (стандартный блок для большинства ФС и, плюс-минус, СУБД) с большой очередью — 128 операций или, если диск не удаётся нагрузить одним потоком CPU с глубиной очереди 128 — тогда в несколько (2-4-8 или больше) потоков по 128 операций. Результаты — только в iops. Задержку (latency) указывать не нужно, так как в данном тесте её можно произвольно увеличить, просто подняв размер очереди — задержка жёстко связана с iops формулой latency=queue/iops.</li>
+<li>Использующих случайный доступ мелким блоком и при этом НЕспособных к распараллеливанию. Таких приложений больше, чем вы могли подумать — например, в части записи сюда относятся все транзакционные СУБД. Отсюда вытекают режимы тестирования случайным доступом 4 КБ блоком с очередью 1 и, для записи, с fsync после каждой операции, чтобы диск/СХД не могли нас обмануть и положить запись во внутренний кэш. Результаты — iops или latency, по желанию — но выберите что-то одно, так как числа, опять же, жёстко связанные.</li>
+</ol>
+<h3 id="ceph_1">Тестирование кластера Ceph</h3>
+<p>Как тестировать Ceph после сборки.</p>
+<h4 id="rbd">RBD</h4>
+<p>fio -ioengine=rbd. Нужно сделать следующее:</p>
+<ol>
+<li>fio -ioengine=rbd -direct=1 -name=test -bs=4M -iodepth=16 -rw=write -pool=rpool_hdd -runtime=60 -rbdname=testimg</li>
+<li>fio -ioengine=rbd -direct=1 -name=test -bs=4k -iodepth=1 -rw=randwrite -pool=rpool_hdd -runtime=60 -rbdname=testimg</li>
+<li>fio -ioengine=rbd -direct=1 -name=test -bs=4k -iodepth=128 -rw=randwrite -pool=rpool_hdd -runtime=60 -rbdname=testimg</li>
+<li>...и потом то же самое для read/randread.</li>
+</ol>
+<p>Смысл в том, чтобы протестировать а) задержку в идеальных условиях б) линейную пропускную способность в) случайные iops-ы.</p>
+<p>Перед тестами чтения образ сначала нужно заполнить линейной записью, так как чтение из пустого образа очень быстрое :)</p>
+<p>Запускать нужно оттуда, где будут реальные пользователи RBD. В целом, с другого узла результаты обычно лучше.</p>
+<p>Также всё то же самое можно повторить изнутри виртуалки или через krbd:</p>
+<ol>
+<li>fio -ioengine=libaio -direct=1 -name=test -bs=4M -iodepth=16 -rw=write -runtime=60 -filename=/dev/rbdX</li>
+<li>fio -ioengine=libaio -direct=1 -sync=1 -name=test -bs=4k -iodepth=1 -rw=randwrite -runtime=60 -filename=/dev/rbdX</li>
+<li>fio -ioengine=libaio -direct=1 -name=test -bs=4k -iodepth=128 -rw=randwrite -runtime=60 -filename=/dev/rbdX</li>
+</ol>
+<p>Заметьте, что при тестировании задержки через libaio добавилась опция -sync=1. Это не случайно, а соответствует режиму работы СУБД (транзакционная запись в 1 поток). В ioengine=rbd понятие sync отсутствует, там всё всегда «sync».</p>
+<h4 id="osd">Отдельные OSD</h4>
+<p>ceph-gobench: <a href="https://github.com/rumanzo/ceph-gobench/">https://github.com/rumanzo/ceph-gobench/</a></p>
+<p>Либо <a href="https://github.com/vitalif/ceph-bench">https://github.com/vitalif/ceph-bench</a>, что примерно то же самое. Родоначальник идеи — @socketpair Марк Коренберг (<a href="https://github.com/socketpair/ceph-bench">оригинал</a>). Бенчилка тестирует <em>отдельные OSD</em>, что очень помогает понять, кто же из них тупит-то.</p>
+<p>Перед запуском надо создать пул без репликации ceph osd pool create bench 128 replicated; ceph osd pool set bench size 1; ceph osd pool set bench min_size 1 и с числом PG, достаточным, чтобы при случайном выборе туда попали все OSD (ну или прибить их вручную к каждому OSD upmap-ами).</p>
+<h4 id="cephfs">CephFS</h4>
+<p>«Нормальных» инструментов для тестирования ФС, сцуко, нет!!!</p>
+<p>«Нормальный» инструмент — это такой инструмент, который вёл бы себя, как файловый сервер: случайно открывал, создавал/писал/читал и закрывал маленькие файлы среди большого общего количества, разбитые по набору каталогов</p>
+<p>Всё, что есть, какое-то кривожопое: bonnie++, например, зачем-то тестирует запись по 1 байту. iometer, fs_mark не обновлялись лет по 10, но и паттерн файл сервера не умеют. Лучшее, что умеют — это тест создания файлов.</p>
+<p>Пришлось написать свой ioengine для fio: <a href="https://github.com/vitalif/libfio_fileserver">https://github.com/vitalif/libfio_fileserver</a> :)</p>
+<h4 id="s3-rgw">S3 (rgw)</h4>
+<p>Предпочтительный вариант: <a href="https://github.com/vitalif/hsbench">hsbench</a> — ссылка дана на исправленную версию (!). Максимально простой, консольное Golang приложение. Оригинальная версия пока что имеет 2 неприятных бага: во-первых, вместо чтения объектов целиком читает только первые 64 КБ, во-вторых, производит последовательное, а не случайное, чтение. Что, например, с minio приводит к слишком оптимистичным результатам тестов. В моей данные баги исправлены.</p>
+<p><a href="https://github.com/intel-cloud/cosbench">cosbench</a> — очень толстый, Java с Web-интерфейсом, XML-настройки.</p>
+<p><a href="https://github.com/minio/warp">minio warp</a> — тестов чуть больше, чем в hsbench, но зато тестирует только 1 бакет и при каждом тесте загружает данные заново.</p>
+<h4 id="_5">Что использовать не надо</h4>
+<ul>
+<li>dd и hdparm для бенчмаркинга не использовать вообще никогда!!!</li>
+<li>rados bench использовать тоже не надо, так как он создаёт для тестирования очень мало объектов (в 1 поток всего 2, в 128 — несколько сотен). «Случайная» запись в такое число объектов не очень-то и случайная.</li>
+<li>rbd bench лучше тоже не использовать. В принципе, он адекватен, но fio всё равно лучше.</li>
+<li>Не надо удивляться, если Ceph не может загрузить диски на 100 % при случайной записи. Он тормоз :)</li>
+</ul>
+<h4 id="rbd_1">Про RBD и параллелизм</h4>
+<p><img alt="Warning icon.svg" src="https://yourcmc.ru/wiki/images/2/24/Warning_icon.svg" /> Тестировать запись несколькими параллельными процессами (fio numjobs &gt; 1) в один RBD-образ бесполезно. Из-за особенностей реализации RBD, в частности, из-за object-map, при параллельной записи из нескольких источников производительность СИЛЬНО проседает (в 2-10 раз). Можно отключить object-map, но это будет некорректный тест, т.к. в реальной эксплуатации в 99% случаев он нужен, так что с отключенным object-map вы лишь получите неправильный (слишком хороший) результат.</p>
+<p>Если вы не можете загрузить кластер одним процессом fio, то нужно создать несколько отдельных RBD-образов и запустить несколько процессов fio параллельно, каждый на своём RBD-образе.</p>
+<h3 id="_6">Тестирование сети</h3>
+<p>sockperf. На одной ноде запускаем сервер: sockperf sr -i IP --tcp. На другой клиент в режиме ping-pong: sockperf pp -i SERVER_IP --tcp -m 4096. ВНИМАНИЕ: В выводе фигурирует <strong>половина</strong> задержки (задержка в одну сторону). Таким образом, для получения RTT её стоит умножить на 2. Нормальный средний RTT - в районе 30-50 микросекунд (0.05ms).</p>
+<p>~~Также qperf. На одной ноде просто qperf. На второй qperf -vvs -m 4096 SERVER_IP tcp_lat.~~</p>
+<p>qperf написан криво: 1) всегда использует для tcp_lat размер сообщения 1 байт!!! 2) не использует TCP_NODELAY. Так что его юзать, только если возьмёте его с моим патчем отсюда: <a href="https://yourcmc.ru/wiki/%D0%9C%D0%BE%D0%B9_Debian_%D1%80%D0%B5%D0%BF%D0%BE%D0%B7%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%B9" title="Мой Debian репозиторий">Мой Debian репозиторий</a>.</p>
+<p><img alt="Warning icon.svg" src="https://yourcmc.ru/wiki/images/2/24/Warning_icon.svg" /> Внимание: в Ubuntu на сетевую задержку негативно влияет AppArmor, его лучше отключить. Картина примерно такая (Intel X520-DA2):</p>
+<ul>
+<li>centos 3.10: rtt min/avg/max/mdev = 0.039/0.053/0.132/0.012 ms</li>
+<li>ubuntu 4.x + apparmor: rtt min/avg/max/mdev = 0.068/0.163/0.230/0.029 ms</li>
+<li>ubuntu 4.x: rtt min/avg/max/mdev = 0.037/0.071/0.157/0.018 ms</li>
+</ul>
+<h2 id="_7"></h2>
+<p>О транзакционности записи</p>
+<p><img alt="Warning icon.svg" src="https://yourcmc.ru/wiki/images/2/24/Warning_icon.svg" /> Плохая новость!</p>
+<p>Важная особенность Ceph — <em>вся запись, даже та, для которой никто этого явно не просит, ведётся транзакционно</em>. То есть, никакая операция записи не завершается, пока она не записана в журналы всех OSD и не сделан fsync() диска. Так сделано, чтобы предотвращать <a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#RAID_WRITE_HOLE">#RAID WRITE HOLE</a>-подобные ситуации рассинхронизации данных между репликами при отключении питания, потере сети и т.п…</p>
+<p>Если конкретизировать сильнее, это означает, что Ceph не использует никакие буферы записи дисков (наоборот, он делает всё, чтобы эти буферы всё время очищать). Это не значит, что буферизации записи нет вообще — она есть на уровне клиентов (page cache в linux, кэш RBD устройства на уровне драйвера librbd qemu…). Но именно внутренние дисковые буферы не используются.</p>
+<p>Это приводит к тому, что типичная настольная SSD под журналом в Ceph выдаёт <strong>неприлично низкие IOPS-ы</strong> — обычно от 500 до 2000. И это при том, что при обычном тестировании почти любая SSD выдаёт &gt; 20000 iops. Даже самый паршивый китайский noname выдаёт не менее 10000 iops. NVMe легко выжимает 150000 и больше. Но стоит начать использовать fsync… и та же NVMe выдаёт 600 iops (на 2.5 порядка меньше).</p>
+<p>В общем, чтобы понять, сколько у вас теоретически может быть IOPS-ов на запись в Ceph, диски под него нужно тестировать с опциями fio <strong>sync=1 iodepth=1</strong>. Это даст «журнальные» иопсы (производительность последовательного коммита операций по одной).</p>
+<p>Другие почти идентичные варианты: fdatasync=1 (в файле поверх ФС) либо fsync=1 (на голом девайсе). Разница между опциями:</p>
+<ul>
+<li>fsync=1 синхронизирует данные и метаданные тестируемого файла отдельным запросом после каждой операции записи. Так работает BlueStore.</li>
+<li>fdatasync=1 синхронизирует только данные (но не метаданные) тестируемого файла после каждой операции записи. Соответственно, от fsync=1 это отличается, только если тестируется <strong>файл в ФС</strong>, а не блочное устройство.<br />
+<img alt="Note.svg" src="https://yourcmc.ru/wiki/images/5/5f/Note.svg" /> fdatasync=1 надо использовать, когда на диске уже есть ФС, а прогнать тест хочется. Результаты будут достаточно корректными.</li>
+<li>
+<p>sync=1 использует O_SYNC и синхронный ввод/вывод, то есть, каждая операция начинается только после завершения предыдущей. Так работает FileStore.</p>
+<p>Но ещё нужна опция iodepth=1, иначе в очередь диска до синхронизации «пролезает» несколько операций и IOPS-ы растут, тест перестаёт быть тестом журнала.</p>
+</li>
+</ul>
+<h2 id="_8"></h2>
+<p>Конденсаторы</p>
+<p>Нас спасёт такое чудо инженерной мысли, как <strong>SSD с конденсаторами</strong> (или с суперконденсаторами — ионисторами). Которые на M.2 SSD, кстати, прекрасно видны невооружённым глазом (только тут это не ионисторы :)):</p>
+<p><a href="https://yourcmc.ru/wiki/%D0%A4%D0%B0%D0%B9%D0%BB:Micron_5100_sata_m2.jpg"><img alt="Micron 5100 sata m2.jpg" src="https://yourcmc.ru/wiki/images/2/2d/Micron_5100_sata_m2.jpg" /></a></p>
+<p>Конденсаторы работают фактически как встроенный в SSD ИБП и позволяют SSD успеть сбросить кэш во флеш-память при потере питания. Таким образом кэш становится «энергонезависимым» — и таким образом SSD может просто игнорировать запросы fsync, так как точно знает, что данные из кэша в любом случае доедут до постоянной памяти.</p>
+<p>При этом <strong>IOPS-ы транзакционной записи становятся равны IOPS-ам нетранзакционной</strong>.</p>
+<p>Конденсаторы в официальных описаниях SSD-шек обычно называются «enhanced/advanced power loss protection». Этой характеристикой обладают, как правило, только «серверные» SSD, да и то не все. Например, в Intel DC S3100 конденсаторов нет, а в Intel DC S4600 есть.</p>
+<p><img alt="Note.svg" src="https://yourcmc.ru/wiki/images/5/5f/Note.svg" /> Это и является главным отличием серверных SSD от настольных. Обычному пользователю транзакции нужны редко — а вот на серверах живут СУБД, которым транзакции как раз нужны позарез.</p>
+<p>То есть, под Ceph следует закупать <strong>только</strong> SSD с конденсаторами. Даже если рассматривать NVMe — NVMe без конденсаторов хуже, чем SATA с оными.</p>
+<p>И ещё один вариант — Intel Optane. Это тоже SSD, но они основаны не на Flash памяти (не NAND и не NOR), а на Phase-Change-Memory «3D XPoint». По спецификации заявляются 550000 iops при полном отсутствии необходимости в стирании блоков, кэше и конденсаторах. Но если даже задержка такого диска и равна 0.005мс (она действительно равна), то задержка Ceph всё равно 0.5-1мс, соответственно, с Ceph оптаны использовать чуть менее, чем бессмысленно — за большие деньги (1500$ за 960 гб, 500$ за 240 гб) вы получите не сильно лучший результат.</p>
+<h2 id="_9"></h2>
+<p>Bluestore vs Filestore</p>
+<p>Блюстор — «новое» хранилище. От «нового» хранилища честно ожидаешь лучшей или хотя бы не худшей производительности во всех сценариях. Однако это, увы, не совсем так.</p>
+<p>Что лучше в Bluestore?</p>
+<ul>
+<li>Ликвидирована двойная запись при линейной записи. Линейная запись быстрее в честных 2 раза практически в любых конфигурациях.</li>
+<li>Отложенная запись, эффективная для HDD (и, частично, для очень плохих SSD). iops случайной записи в HDD-only конфигурациях почти в 2 раза больше, чем в Filestore. Правда, речь об iops на HDD не идёт в принципе, поэтому вся разница — 33 или 66 iops на 1 HDD.</li>
+<li>Возможность использования EC под CephFS и RBD благодаря реализованной частичной перезаписи объектов в EC-пулах.</li>
+<li>
+<p>Эффективные снапшоты (благодаря «виртуальным клонам»): после снятия снапшота iops практически не падают, в отличие от Filestore, в котором они падают до считанных сотен даже на NVMe, так как при перезаписи даже 4 КБ после снятия снапшота в Filestore копируется целый 4 МБ объект.</p>
+<p><img alt="Warning icon.svg" src="https://yourcmc.ru/wiki/images/2/24/Warning_icon.svg" /> Увы, это относится только к <strong>rbd snapshot</strong>, но не к <strong>rbd clone</strong>. Клоны неэффективны в Bluestore точно так же, как и в Filestore. Запись 4 КБ в клон точно так же выливается в копирование 4 МБ.</p>
+</li>
+<li>
+<p>Это не так критично, но в Bluestore есть поддержка сжатия и контрольных сумм данных.</p>
+</li>
+</ul>
+<p>А что хуже? В целом, претензии сводятся к производительности:</p>
+<ul>
+<li>
+<p>Гораздо хуже производительность случайной записи на SSD+HDD, SSD-раздел не работает как буфер для быстрой записи. Bluestore не пишет быстрее, чем может в среднем сам HDD. То есть, с SSD-журналом и Filestore будет 1000—2000 иопс случайной записи, а с Bluestore (и без bcache) — 200—300. 1000—2000, конечно, упадёт до 100 или даже ниже, когда у Filestore забьётся журнал и его придётся сбрасывать — но тем не менее, «буфер» для сглаживания пиков Filestore предоставляет. А Bluestore — нет.</p>
+<p>И проблема не только в том, что параметры по умолчанию — deferred_batch_ops и max_deferred_txc — задают частый сброс операций на медленный диск (раз в 64 операции). Проблема ещё в том, что в Bluestore отсутствуют механизмы фоновой очистки «журнала» (очереди отложенной записи). Поэтому, когда очередь забивается, производительность просто падает до HDD-шной до перезапуска OSD. Ну и сама очередь находится в RocksDB, поэтому сильно поднимать её размер, по идее, неполезно.</p>
+</li>
+<li>
+<p>До 1.5-2 раз хуже latency случайной записи на SSD/NVMe (All-Flash), ибо накладных расходов на каждую операцию записи у Bluestore больше.</p>
+</li>
+<li>Жор памяти больше. Да, у Filestore много занимал pagecache, но Bluestore меньше 2 ГБ памяти не жрёт вообще никогда. Причиной тому — RocksDB (одни только memtable-ы с дефолтными настройками съедают 1 ГБ памяти) и собственный кэш метаданных и данных (Bluestore не может использовать pagecache).</li>
+<li>Фрагментация приводит к снижению скорости чтения.</li>
+</ul>
+<p>Также BlueStore делает огромное количество fsync-ов (что очень смешно — даже больше, чем запросов записи), из-за чего не терпит десктопных SSD под журналом. Но FileStore работает похоже, и кардинальных различий производительности это не вносит.</p>
+<p>Как полечить высокие задержки на SSD+HDD?</p>
+<ul>
+<li>Либо вместо журнала (или рядом с журналом) сделать на SSD bcache для HDD.</li>
+<li>Либо использовать HDD с SSD Cache, Media Cache или аналогом (перманентным кэшем случайной записи на пластинах). Например, в старых дисках HGST это включается при отключении волатильного кэша командой <code>hdparm -W 0 /dev/sdXX</code>. В новых, похоже, включено всё время.</li>
+</ul>
+<h3 id="1-nvme">Тест на 1 NVMe</h3>
+<p>Threadripper 2920X, NVMe Intel P4500, localhost. 1 OSD без репликации, 8 PG, чтобы не упираться в блокировки, 1 маленький RBD образ 10 Гб.</p>
+<p>Журнал Filestore 1 GB, чтобы в тестах успевал начинаться сброс. Bluestore 4k — это min_alloc_size и prefer_deferred_size = 4096 (4k запись идёт через redirect-write), Bluestore 16k — 16384 (4k запись идёт через deferred).</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Filestore</th>
+<th>Bluestore 16k</th>
+<th>Bluestore 4k</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bs=4M iodepth=16 rw=write</td>
+<td>950 MB/s</td>
+<td>1700 MB/s</td>
+<td>1700 MB/s</td>
+<td></td>
+</tr>
+<tr>
+<td>bs=4M iodepth=16 rw=read</td>
+<td>1250 MB/s</td>
+<td>1300 MB/s</td>
+<td>1300 MB/s</td>
+<td>После полной линейной перезаписи + drop_caches</td>
+</tr>
+<tr>
+<td>bs=4M iodepth=16 rw=read</td>
+<td>1250 MB/s</td>
+<td>450 MB/s</td>
+<td>320 MB/s</td>
+<td>После 33 % случайной перезаписи блоком min_alloc_size</td>
+</tr>
+<tr>
+<td>bs=4k iodepth=1 rw=randwrite</td>
+<td>3900 iops</td>
+<td>3200 iops</td>
+<td>2500 iops</td>
+<td></td>
+</tr>
+<tr>
+<td>bs=4k iodepth=128 rw=randwrite</td>
+<td>19100 iops</td>
+<td>19500 iops</td>
+<td>25500 iops</td>
+<td></td>
+</tr>
+<tr>
+<td>bs=4k iodepth=1 rw=randwrite</td>
+<td>180 iops</td>
+<td>2800 iops</td>
+<td>2500 iops</td>
+<td>Сразу после снятия snapshot-а RBD</td>
+</tr>
+<tr>
+<td>bs=4k iodepth=128 rw=randwrite</td>
+<td>180 iops</td>
+<td>8800 iops</td>
+<td>15600 iops</td>
+<td>Сразу после снятия snapshot-а RBD</td>
+</tr>
+<tr>
+<td>bs=4k iodepth=1 rw=randread</td>
+<td>3900 iops</td>
+<td>4500 iops</td>
+<td>4500 iops</td>
+<td>После drop_caches / перезапуска OSD</td>
+</tr>
+<tr>
+<td>bs=4k iodepth=1 rw=randread</td>
+<td>6300 iops</td>
+<td>4500 iops</td>
+<td>4500 iops</td>
+<td>Прогретый кэш</td>
+</tr>
+<tr>
+<td>bs=4k iodepth=128 rw=randread</td>
+<td>33000 iops</td>
+<td>32000 iops</td>
+<td>33000 iops</td>
+<td></td>
+</tr>
+<tr>
+<td>RAM</td>
+<td>270 MB</td>
+<td>2 GB +</td>
+<td></td>
+<td>Filestore также использует произвольный объём page cache</td>
+</tr>
+<tr>
+<td>CPU randwrite Q=128</td>
+<td>600 %</td>
+<td>550 %</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="blockdb">Про размер block.db</h3>
+<p><strong>Внимание:</strong> актуально до Ceph 14. Начиная с Ceph 15, благодаря добавленным «allocation hints» RocksDB, Bluestore стал нормально утилизировать раздел block.db. Для истории — это коммит 5f72c376deb64562e5e88be2f22339135ac7372b, там добавили опцию bluestore_volume_selection_policy.</p>
+<p>Дальше стоит читать, только если у вас всё ещё проблемы со spillover-ами.</p>
+<p>Спилловер — это когда вы собрали Bluestore на SSD+HDD, выделив SSD под базу (block.db), но при этом эта самая база постоянно частично утекает на HDD. При этом она, вроде бы, даже влезает в SSD с запасом — но всё равно утекает. Начиная с Ceph 14 Nautilus о спилловерах предупреждает ceph -s.</p>
+<p>Когда случается спилловер в SSD+HDD конфигурациях, работа кластера замедляется — в большей или меньшей степени, в зависимости от размеров RocksDB и паттерна нагрузки, так как когда метаданных не очень много, они влезают в кэш OSD — либо onode cache, либо rocksdb cache, либо, если включено bluefs buffered io — то ещё и в системный page cache. Если кэш-промахов достаточно много, или если OSD упирается в compaction RocksDB, могут даже появляться slow ops-ы.</p>
+<p>Так в чём же дело и как это победить? А дело в том, что с выбором раздела для очередного файла БД (RocksDB организована в виде набора файлов) «есть нюанс», точнее, даже два.</p>
+<p><strong>Нюанс № 1:</strong> RocksDB кладёт файл на быстрый диск только когда считает, что на быстром диске хватит места под все файлы этого же уровня (для тех, кто ещё не в курсе — RocksDB это <a href="https://github.com/facebook/rocksdb/wiki/Leveled-Compaction">LSM база</a>).</p>
+<p>Дефолтные настройки цефа:</p>
+<ul>
+<li>1 Гб WAL = 4x256 Мб</li>
+<li>max_bytes_for_level_base и max_bytes_for_level_multiplier не изменены, поэтому равны 256 Мб и 10 соответственно</li>
+<li>соответственно, L1 = 256 Мб</li>
+<li>L2 = 2560 Мб</li>
+<li>L3 = 25600 Мб и т. д.</li>
+</ul>
+<p>…Соответственно!</p>
+<p>Rocksdb положит L2 на block.db, только если раздел имеет размер хотя бы 2560+256+1000 Мб — округлим вверх до <strong>4 ГБ</strong>. А L3 она положит на block.db, только если block.db размером хотя бы 25600+2560+256+1000 МБ = около <strong>30 ГБ</strong>. А L4, соответственно, если ещё +256 ГБ, то есть итого <strong>286 ГБ</strong>.</p>
+<p>Иными словами, имеют смысл только размеры раздела block.db 4 ГБ, 30 ГБ, 286 ГБ. Все промежуточные значения бессмысленны — место сверх предыдущего граничного значения использоваться не будет. Например, если БД занимает 10 ГБ, а раздел SSD — 20 ГБ, то фактически на SSD ляжет только WAL (1 ГБ), L1 и L2 (256 МБ + 2.56 ГБ). L3, составляющий бОльшую часть базы, уедет на HDD и будет тормозить работу.</p>
+<p>При этом 4 ГБ — слишком мало, 286 ГБ — слишком много. Так что, по сути, правильно делать block.db размером 30 ГБ для OSD любого размера. Ещё раз повторюсь: это актуально до Ceph 14, с Ceph 15 уже не актуально.</p>
+<p>Кстати, из этого же следует то, что официальная рекомендация — выделять под block.db то ли 2 %, то ли 4 % от размера устройства данных — полный отстой.</p>
+<p>Но что делать, если у вас разделы другого размера? Например, 80 ГБ, и вы по каким-то причинам не хотите делать bcache, но хотите использовать эти 80 ГБ по максимуму. В этом случае можно поменять базовый размер уровня RocksDB (max_bytes_for_level_base). multiplier менять не будем, оставим по умолчанию 10 — его значение влияет на итоговое количество уровней RocksDB, а это уже более тонкая материя. Теоретически, меньшее число уровней снижает read и space amplification, но замедляет compaction и из-за этого может сильно повысить итоговый write amplification. Также есть тема с уменьшением размера отдельных memtable и кратным увеличением общего их числа, то есть, например, установки 32<em>32 МБ вместо дефолтных 4</em>256 МБ и min_write_buffer_to_merge=8, но эффект от этого тоже не совсем понятен (возможно, немного экономится CPU при compaction-е), так что это тоже пока лучше не трогать.</p>
+<p>Так как каждый уровень отличается от предыдущего в 10 раз, общий размер раздела БД должен быть равен k*X, где k — коэффициенты из ряда: 1, 11, 111, 1111 и т. п. (по числу уровней RocksDB). Значит, мы можем взять размер нашего block.db, вычесть из него 1 ГБ WAL (лучше даже вычесть с запасом 2 ГБ) и делить его последовательно на каждую из цифр до тех пор, пока не получим значение, близкое к 256 МБ … 1 ГБ. Это значение округлить вниз, принять за базовый размер уровня RocksDB и прописать в конфиг как max_bytes_for_level_base. База компактится по 256 МБ за раз, так что меньше 256 МБ размер первого уровня ставить точно смысла нет. Например, для 80 ГБ раздела это будет 719 МБ, только не забываем считать всё в двоичных мегабайтах — MiB. Остаётся прописать это значение в конфигурацию (bluestore_rocksdb_options = …,max_bytes_for_level_base=719MB), перезапустить OSD и сделать ручной compaction (можно дважды).</p>
+<p><strong>Нюанс № 2:</strong> При ручном compaction-е RocksDB переписывает уровни целиком. Если при этом на SSD нет запаса места в размере этого уровня, то уровень, опять-таки, утечёт на HDD и так там и останется, ибо перемещать после compaction-а его обратно она не умеет. Теоретически, если после этого сделать compaction ещё раз, то уровень должен вернуться на SSD (поэтому выше дана рекомендация делать ручной compaction дважды). Однако по сведениям из чата якобы бывает так, что один-два файла *.sst на SSD не возвращается. Чтобы это побороть на 100 %, можно предусмотреть на SSD-разделе ещё и запас в размере первого + последнего уровня БД. В этом случае коэффициенты вместо 1-11-111-1111 превращаются в 2-22-212-2112 и т. п.</p>
+<h2 id="_10"></h2>
+<p>RGW vs Minio</p>
+<p>Вопрос частый, так как Ceph и Minio — две наиболее распространённые реализации S3.</p>
+<p>Сравнение, как всегда, не совсем честное, так как в Minio «бесконечного масштабирования» и произвольных схем избыточности нет. Есть только erasure коды, которые оперируют группами дисков, кратными по количеству 4 или 16 дискам. Расширения кластера в Minio раньше не было вообще, потом в каком-то смысле появилось через создание дополнительных зон.</p>
+<p>Таких же гарантий целостности, как в Ceph, в Minio тоже нет. Minio работает поверх обычных ФС, даже не делая fsync данных. На практике ext4, правда, делает sync автоматически раз в 5 секунд, да и Minio пишет с O_DIRECT, так что не совсем всё плохо — но тем не менее, потенциально небольшие потери при отключении питания возможны.</p>
+<p>Особенно классный перл был в баге <a href="https://github.com/minio/minio/issues/3478">https://github.com/minio/minio/issues/3478</a>:</p>
+<blockquote>
+<p>Minio in this case is working as intended, minio cannot be expanded or shrinkable in this manner. Minio is different by design. It is designed to solve all the needs of a single tenant. Spinning minio per tenant is the job of external orchestration layer. Any addition and removal means one has to rebalance the nodes. When Minio does it internally, it behaves like blackbox. It also adds significant complexity to Minio. Minio is designed to be deployed once and forgotten. We dont even want users to be replacing failed drives and nodes. Erasure code has enough redundancy built it. By the time half the nodes or drives are gone, it is time to refresh all the hardware. If the user still requires rebalancing, one can always start a new minio server on the same system on a different port and simply migrate the data over. It is essentially what minio would do internally. Doing it externally means more control and visibility. Minio is meant to be deployed in static units per tenant.</p>
+</blockquote>
+<p>Короче, всё работает как надо, в минио нет возможности расширения, если у вас будут ломаться диски — не меняйте, просто дождитесь, пока из строя выйдет половина дисков и пересоздайте кластер. На самом деле всё не так печально, можно заменить диск и запустить heal, но, конечно, без той же прозрачности, что в Ceph — оно будет просто сканировать все объекты и проверять отсутствующие. Если дисков много, это очень накладно.</p>
+<p>Ещё Minio хранит объекты в виде обычных файлов, даже не шардируя каталоги (соответствующие бакетам) по подкаталогам, плюс на каждый объект ещё создаёт директорию с парой файлов метаданных. Ну а директории в ФС по миллиону файлов — это, естественно, удовольствие ниже среднего. Хотя просто для раздачи оно, благодаря всяким dir_index-ам, работает.</p>
+<p>Для представления о производительности проведём простой тест Ceph (bluestore) vs Minio (ext4) на 1 HDD. Да, я знаю, что это тупо и нужно ещё хотя бы посравнивать их на SSD. Но всё-таки результаты довольно показательны. Да и объектное хранилище чаще холодное/прохладное и строится на HDD, а не на SSD.</p>
+<p>Тест делался через <a href="https://github.com/vitalif/hsbench">hsbench</a>. Заключался в заливке примерно 1.1 миллиона объектов в 1 бакет, потом сброса кэшей и перезапуска Ceph/Minio, и потом — их раздачи в случайном порядке, а также проверки скорости выполнения операций листингов. Результаты:</p>
+<ul>
+<li>Заливка в 32 потока: Minio — 305 объектов в секунду, RGW — 135 объектов в секунду. RGW indexless — 288 объектов в секунду.</li>
+<li>Раздача в 32 потока: Minio — 45 объектов в секунду, RGW — 78 объектов в секунду</li>
+<li>Листинги в 32 потока: Minio — после сброса кэша 35 сек, после прогрева — 2.9 сек с разбросом от 0.5 до 16 сек. RGW — стабильно — 0.4 сек</li>
+</ul>
+<p>Да, заливка в Minio быстрее. Но, во-первых, меньшая скорость заливки — это цена, во-первых, консистентности (fsync), а во-вторых, bucket index-а и bucket index log-а, которые позволяют RGW, например, делать геосинхронизацию (multisite), чего в Minio нет.</p>
+<p>Кроме того, индексы в RGW можно положить на отдельные SSD (как обычно все и делают), а если же вам совсем не нужны листинги, синхронизация и прочее, в Ceph бакеты можно сделать безиндексными (indexless), и тогда оверхед bucket index-а вообще исчезает, как и возможные проблемы с его шардированием.</p>
+<h2 id="_11"></h2>
+<p>Снапшоты</p>
+<p>В реализации снапшотов в Ceph есть целый ворох проблем из-за количества параллельных реализаций и общего накопленного архитектурного бардака:</p>
+<ul>
+<li>На уровне RADOS снапшоты свои и их уже 2 вида: снапшоты пулов и снапшоты объектов.</li>
+<li>На уровне RBD тоже свои снапшоты, причём они отличаются от RADOS-снапшотов, хоть внутри и реализованы частично через них. RBD снапшоты, можно сказать, не юзабельны ни для чего, кроме быстрого снятия бэкапов, за которым тут же следует удаление снапшота. Откат к RBD снапшотам очень медленный и реализован не просто ужасно, а отвратительно — копированием содержимого снапшота поверх образа, <em>даже неизменённых частей</em>. Кроме того, при откате цепочка последующих снапшотов уничтожается. Кроме того, есть прикол с жором места — см. на 2 пункта ниже.</li>
+<li>В Bluestore снапшоты эффективны — после снятия снапшота случайная запись практически не замедляется, в отличие от Filestore, где принцип работы снапшотов схож со старым LVM и при записи даже 4 КБ после снятия снапшота соответствующий 4 МБ объект копируется целиком.</li>
+<li>Но при этом эта оптимизация снапшотов — «виртуальные клоны» — реализована именно на уровне Bluestore, ни клиент, ни OSD о ней ничего не знают и поэтому она… ломается при ребалансе. Выглядит это так: ты добавляешь в кластер диск, он заполняется, а доступного места больше не становится. Почему? Потому что изначально, при записи, Bluestore получил запрос «клонировать 4 МБ объект в новую версию» и сделал это внутри себя, реально не копируя данные, а потом перезаписал 4 КБ. А при ребалансе эта связь порвалась и объект стал занимать все 4 МБ… Fail.</li>
+<li>Также на уровне RBD есть клоны, которые, с одной стороны, более юзабельны — реализованы они через ссылку на родительский образ, соответственно, откат к такому «снапшоту» быстрый — достаточно просто создать новый клон. С другой стороны, для клонов не работает эта самая блюсторовская оптимизация, поэтому они опять-таки копируют объекты целиком при любой записи… что выливается в 40 иопс на запись (QD=1) в свежий клон даже в NVMe кластере.</li>
+<li>В CephFS ещё одна реализация снапшотов, и там отката нет вообще.</li>
+</ul>
+<p>В общем, наговнокодили — мама не горюй…</p>
+<h2 id="_12"></h2>
+<p>EC</p>
+<p>EC ещё больше снижает iops-ы, так как добавляется цикл Read-Modify-Write. <a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_mobile#RAID_WRITE_HOLE">#RAID WRITE HOLE</a> в цефе закрыт, поэтому при записи все OSD сначала делают вторые копии объекта (по-видимому, виртуальные, через тот же механизм virtual clone bluestore), а потом удаляют старые.</p>
+<p>В моём примере на NVMe-шках — write iops с репликацией Q=1 примерно 1500, а с EC — примерно 500. Q=128 — примерно 25000 с репликацией и 10000 с EC.</p>
+<h3 id="_13">Про вероятность потери данных</h3>
+<p>Смотрите мой калькулятор вероятности потери данных в кластере: <a href="https://yourcmc.ru/afr-calc/">https://yourcmc.ru/afr-calc/</a></p>
+<h2 id="_14"></h2>
+<p>Контроллеры</p>
+<ul>
+<li>SATA — это нормально, SAS не обязателен от слова «совсем». SATA за счёт того, что «не умничает», достаточно быстрая и точно лучше, чем старые RAID контроллеры.</li>
+<li>Разница в IOPS между RAID и HBA/SATA может быть колоссальна. В производительность не самого нового RAID контроллера легко упереться. Плохо даже не то, что на 1 диск вы получите 48000 iops вместо 60000, хуже то, что при подключении 8 дисков вы получите 6000 iops на каждый диск вместо 60000, так как 48000 поделятся на всех. Также в RAID режиме увеличивается задержка в 1 поток.</li>
+<li>Так что свой RAID контроллер либо переключите в режим passthrough (если он умеет), либо перепрошейте, чтобы умел, либо выкиньте в помойку и купите HBA («RAID без RAID-функционала», например, LSI 9300-8i). Это актуально для всех видов программных хранилок — Ceph, ZFS и т. п.</li>
+<li>Если не выкинули RAID — отключайте все кэши контроллера, чтобы уменьшить влияние прослойки и не страдать при разряде батарейки / перемещении диска в другой сервер... и молитесь :). Наверное, в теории можно выжить и с включенным кэшем, но это стрельба себе в ногу.</li>
+<li>Даже если у вас HBA — имейте в виду, что некоторые HBA (в частности, Adaptec) могут всё равно не сбросить кэш корректно и устроить вам Cloudmouse при отключении питания. Но по крайней мере точно известно, что LSI ведут себя нормально.</li>
+<li>Хороший пост про RAID-кэши в списке рассылки: <a href="http://lists.ceph.com/pipermail/ceph-users-ceph.com/2019-July/036237.html">http://lists.ceph.com/pipermail/ceph-users-ceph.com/2019-July/036237.html</a> - если вкратце - человек, админивший 6000 OSD, пишет, что никогда больше не свяжется с RAID0-режимами.</li>
+<li>У HBA тоже есть предел IOPS. К примеру, у LSI 9211-8i это ~280000 iops на весь контроллер.</li>
+<li>При подключении через SATA или HBA контроллер не забывайте для <strong>серверных</strong> SATA дисков сделать hdparm -W 0 /dev/sdX, для SAS — sdparm --set WCE=0 /dev/sdX.</li>
+<li>Для SAS и NVMe включайте blk-mq (ну или юзайте свежие ядра, в районе 4.18 оно включается по умолчанию). Но для SATA blk-mq обычно бесполезен или почти бесполезен.</li>
+<li>Фактическая глубина очереди, используемая Ceph OSD при случайной записи, редко больше 10 (посмотреть можно при работе утилитой iostat -xmt 1).</li>
+</ul>
+<h2 id="_15"></h2>
+<p>Процессоры</p>
+<ul>
+<li>На SSD Ceph ОЧЕНЬ СИЛЬНО упирается в процессор. Можно сказать, что процессор — основной bottleneck.</li>
+<li>Как сказано в презентации Ника Фиска — Ceph is a Software-Defined Storage <strong>and every piece of Ceph «Software»</strong> will run faster with every GHz of CPU frequency.</li>
+<li>Кроме частоты, на серверных процессорах часто наличествует NUMA (Non-Uniform Memory Access). То есть, часть памяти и оборудования доступна процессору напрямую, а часть — только через другой процессор.</li>
+<li>Для максимизации производительности конфигураций с NUMA лучше избегать, а процессорам с бОльшим числом ядер и меньшей частотой лучше предпочитать бОльшую частоту и меньшее число ядер…</li>
+<li>…но в пределах разумного, так как даже один OSD на серверном SSD под нагрузкой может спокойно выжрать на 100 % ядер 6.</li>
+<li>Под частотой подразумевается номинальная частота, а не Turbo Boost, так как оный актуален только для однопоточных нагрузок.</li>
+<li>Рекомендации по привязке OSD к отдельным CPU (taskset), можно сказать, неактуальны, так как Ceph OSD сильно многопоточные — при записи постоянно активно как минимум 4 потока, и ограничение их несколькими ядрами сильно урезает производительность.</li>
+<li>Есть два параметра, которые регулируют число рабочих потоков OSD — osd_op_num_shards и osd_op_num_threads_per_shard…</li>
+<li>…Но менять их бесполезно, поднять производительность таким образом не получается абсолютно, дефолтные значения (1x5 на HDD и 2x8 на SSD) оптимальны. kv_sync_thread-то всё равно только один.</li>
+<li>Есть одна мера, которая помогает поднять производительность сразу раза в 2-3: отключение экономии энергии процессором:<ul>
+<li>cpupower idle-set -D 0 — отключает C-States (либо опции ядра processor.max_cstate=1 intel_idle.max_cstate=0)</li>
+<li>cpupower frequency-set -g performance или (старое) for i in $(seq 0 $((<code>nproc</code>-1))); do cpufreq-set -c $i -g performance; done — отключает снижение частоты через множитель</li>
+</ul>
+</li>
+<li>После этих двух команд процессор начинает греться как ПЕЧ, но iops-ы увеличиваются сразу раза в 2 (а то и 3)</li>
+<li>Также жор CPU — одна из причин НЕ делать из Ceph «гиперконвергентное облако» (в котором совмещены узлы хранения и запуска виртуальных машин)</li>
+<li>Ещё можно отключить все mitigation-ы аппаратных уязвимостей: noibrs noibpb nopti nospectre_v2 nospectre_v1 l1tf=off nospec_store_bypass_disable no_stf_barrier</li>
+</ul>
+<h2 id="_16"></h2>
+<p>Сеть</p>
+<ul>
+<li>Разумеется, 10 Гбит/с или быстрее</li>
+<li>MTU 9000: ip l set enp3s0f0 mtu 9000</li>
+<li>Отключить оффлоады: ethtool -K enp3s0f0 gro off gso off tso off lro off sg off</li>
+<li>Отключить объединение прерываний: ethtool -C enp3s0f0 rx-usecs 0</li>
+<li>Самый дешёвый 10G свитч с Ebay: Quanta LB6M / Brocade TurboIron 24X — но говно старое унылое и жрёт под 200 ватт, и греется и жужжит соответственно</li>
+<li>UPD Самый дешёвый свитч с Aliexpress: <a href="https://aliexpress.ru/item/1005004429524441.html">TP-LINK TL-ST5008F</a>. На чипе <a href="https://www.realtek.com/en/products/communications-network-ics/item/rtl9303-cg">Realtek RTL9303-CG</a></li>
+</ul>
+<p>Если совсем задолбала латенси, как отключить ВСЕ оффлоады?</p>
+<p>for i in rx tx tso ufo gso gro lro tx nocache copy sg txvlan rxvlan; do
+    /sbin/ethtool -K eth3 $i off 2&gt;&amp;1 &gt; /dev/null;
+done</p>
+<h2 id="_17"></h2>
+<p>Настройка виртуалок и ФС</p>
+<p>С дефолтными опциями qemu подключает RBD, увы, криво.</p>
+<p>Криво — это значит, что:</p>
+<p>а) используется медленная эмуляция lsi-контроллера</p>
+<p>б) неправильно настроен кэш</p>
+<h3 id="_18">Драйвер виртуального диска и ФС</h3>
+<p>В qemu есть следующие способы эмуляции дисков:</p>
+<ul>
+<li>lsi — самый медленный</li>
+<li>virtio — самый быстрый, но до QEMU 4.0 не умел TRIM. Юзать надо его.</li>
+<li>virtio-scsi — достаточно быстрый. На самом деле, умеет multiqueue и поэтому на быстром хранилище (например, при прямом доступе к локальной NVMe) должен быть быстрее virtio — но в случае с Ceph это не так, так как цеф не настолько быстрый, чтобы multiqueue играл роль</li>
+<li>nvme — тоже достаточно быстрый, но немного медленнее virtio. Принцип работы похожий — и там, и там кольцевые буферы. Можно использовать для тех образцов ПО, которые не умеют virtio, потому что не уметь nvme сейчас совершенно точно не может никто. Например, если хочется потестировать VMWare ESXi с вложенной виртуализацией внутри QEMU, то nvme — для вас!</li>
+</ul>
+<h3 id="cachewriteback">cache=writeback</h3>
+<p>Кэш дисков в qemu регулируется опцией, собственно, cache. Бывает &lt;не указано&gt;, writethrough, writeback, none, unsafe, directsync.</p>
+<p>С Ceph RBD эта опция регулирует работу rbd cache, то есть кэша на стороне клиентской библиотеки Ceph (librbd). RBD cache маленький (32 МБ) и является аналогом буфера записи на HDD, то есть, предназначен исключительно для группировки операций записи перед, собственно, отправкой их в хранилище.</p>
+<p>Режимы writethrough, &lt;не указано&gt; и directsync с RBD, по сути, эквивалентны и означают отсутствие кэширования записи (каждая операция отправляется сразу в Ceph).</p>
+<p>Режим writeback означает «честное» (безопасное) кэширование записи. То есть, операции записи без fsync ложатся в кэш и отправляются оттуда либо раз в rbd_cache_max_dirty_age (по умолчанию 1 сек), либо когда ВМ просит fsync.</p>
+<p>Режим unsafe означает «нечестное» (чреватое потерей данных) кэширование записи. Операции записи также ложатся в кэш, но fsync от ВМ игнорируются. Транзакционность в виртуалке отсутствует, но и производительность повышается. Использовать этот режим можно только для виртуалок, не содержащих ценные данные (например, для каких-нибудь тестов или CI).</p>
+<p>При среднем применении правильный режим — <strong>cache=writeback</strong>. Грубо говоря, cache=writeback увеличивает результат следующего теста:</p>
+<p>fio -name=test -ioengine=libaio -direct=1 -bs=4k -iodepth=1 -rw=randwrite -filename=/dev/vdb   # без -fsync и без -sync</p>
+<p>…примерно приводя его к результату того же теста с iodepth=32.</p>
+<p><img alt="Note.svg" src="https://yourcmc.ru/wiki/images/5/5f/Note.svg" /> ОДНАКО, есть НЮАНСЫ (как всегда с цефом…):</p>
+<ul>
+<li>Если RBD-образ пустой и при этом на нём включён object-map (по умолчанию включён, см. rbd info <pool>/<image>), то сброс кэша становится однопоточным И ФИГ ВЫ ВИДИТЕ улучшение результата fio.</li>
+<li>Если опция rbd_cache_writethrough_until_flush равна true (так по умолчанию), то до первого fsync кэш не работает. То есть, если вы монтируете к виртуалке диск и сразу тестируете его вышеприведённой командой — вы опять-таки не увидите хороших результатов.</li>
+<li>Из-за той же опции, стоящей в true, cache=unsafe не работает вообще. В Proxmox включен патч, который заставляет qemu ставить эту опцию автоматически. Если у вас не Proxmox — опцию нужно прописать в конфиг глобально: rbd_cache_writethrough_until_flush=false.</li>
+<li>Сам кэш может являться тормозом в SSD-кластерах. Что-то там сделано с блокировками, что-то там однопоточное, всё это оптимизируют, но пока не оптимизировали. Например, 4K randwrite Q128 с rbd_cache=false может достигать 20000 iops, а с rbd_cache=true — только 11000 iops. Для говнософта, который пишет на диск абы как, это торможение оправдано, а для, например, СУБД — нет. Поэтому в случае, если у вас SSD и вам нужны в первую очередь random iops, то правильный режим — <strong>cache=none</strong>.</li>
+</ul>
+<h3 id="_19">ФС</h3>
+<p>А ещё тормозит файловая система! Конкретно, если у вас не включена опция mount -o lazytime, то при каждой мелкой записи ФС обновляет mtime, то есть время модификации inode-а. Так как это метаданные, а ФС журналируемые — это изменение журналируется. Из-за этого при тесте fio -sync=1 -iodepth=1 -direct=1 поверх ФС без lazytime iops-ы уменьшаются в 3-4 раза.</p>
+<p>Для lazytime нужны свежие ядра: с ext4 — хотя бы 4.0, с XFS — хотя бы 4.17. Также нужны соответствующие (свежие) util-linux (подсказка: в протухшей 7-й центоси их нет, поставить можно только из исходников).</p>
+<p>А если у вас (не дай бог) внутри Oracle, то ему надо обязательно поставить опцию FILESYSTEMIO_OPTIONS=SETALL.</p>
+<p>Производительность случайной записи в CephFS почти не отличается от RBD.</p>
+<p>Производительность случайной записи в CephFS через mount -t cephfs и через ceph-fuse… при iodepth=1 почти не отличается. А вот при iodepth=128 ядерный клиент ведёт себя нормально, а ceph-fuse выдаёт столько же, сколько при iodepth=1 (то есть на порядок/порядки меньше, чем ядерный клиент).</p>
+<h2 id="_20"></h2>
+<p>Оценка производительности кластера</p>
+<p>Оценка производительности кластера просто по спецификациям входящих в него дисков — абсолютно неправильна.</p>
+<p>Речь о Bluestore. Под iops понимаются iops случайного чтения/записи блоками по 4 кб.</p>
+<p>1 HDD (обычный, 7200 rpm, не SMR, без ssd-кэша) — это:</p>
+<ul>
+<li>~100-120 iops при QD=128</li>
+<li>~66 iops при QD=1</li>
+<li>~40 MB/s линейного чтения/записи</li>
+<li>При недостатке памяти показатели будут хуже, так как будут cache miss по метаданным</li>
+</ul>
+<p>1 быстрый SSD или NVMe SSD (с конденсаторами, write iops &gt;= 25000):</p>
+<ul>
+<li>~1000 iops на запись при QD=1, в зависимости от частоты CPU и настроек может быть от 300 до, в самом идеальном случае, ~2500 iops.</li>
+<li>Максимум до ~10000-20000 iops на запись при QD=128 на 1 OSD.</li>
+<li>На чтение показатели примерно в 2-2.5 раза лучше: QD=1 ~2000 iops (максимум до ~4000), QD=128 ~20000, максимум до 50000.</li>
+<li>Естественно, показатель QD=128 не может быть больше, чем показатель самого диска :). Но так как хорошие SSD в параллельном режиме обычно быстрые — этого не замечаешь.</li>
+<li>Создав несколько OSD на одном диске, можно умножить число QD=128 iops на число OSD (пока диск позволяет). Естественно, ценой аналогичного увеличения жора CPU.</li>
+<li>Скорость линейного чтения/записи примерно равна скорости линейного чтения/записи самого диска.</li>
+<li>Кардинальной разницы по iops между SATA SSD и даже NVMe, если у обоих есть конденсаторы — нет. Это не отменяет того, что NVMe лучше, но на случайном доступе это заметить трудно.</li>
+<li>На актуальных SSD чтение QD=1 часто бывает медленнее записи QD=1, так как писать можно в быстрый кэш, а читать можно только из реальной памяти. Разница бывает примерно такая: на чтение при QD=1 8000 iops, а на запись 40000 iops.</li>
+</ul>
+<p>Итоговые показатели:</p>
+<ul>
+<li>Линейное чтение из кластера = Число OSD * MB/s одного OSD</li>
+<li>Линейная запись в реплицированный пул = Число OSD / Репликация * MB/s одного OSD</li>
+<li>Линейная запись в EC-пул = Число OSD / (K+M) * K * MB/s одного OSD</li>
+<li>С iops всё сложнее, так как репликация вносит нелинейный эффект в масштабирование. Но, условно говоря:<ul>
+<li>iops QD=1 — усредняются по всем OSD, а iops QD=128 — суммируются</li>
+<li>При этом на 1 RBD клиента можно получить лишь до ~30000 iops на чтение и ~15000 iops на запись</li>
+</ul>
+</li>
+<li>Естественно, если что-то упирается в сеть — соответствующая цифра обрезается показателем сети</li>
+</ul>
+<h2 id="_21"></h2>
+<p>Картина маслом «Тормозящий кэш»</p>
+<h3 id="o_sync-vs-fsync-vs-hdparm-w-0">O_SYNC vs fsync vs hdparm -W 0</h3>
+<p>У SATA и SCSI дисков есть два способа сброса кэша: команда FLUSH CACHE и флаг FUA (Force Unit Access) на команде записи. Первый — это явный сброс кэша, второй — это указание записать операцию на диск, минуя кэш. Точнее, у SCSI оно есть, а с SATA ситуация точно не ясна: в спецификации NCQ бит FUA есть, но по факту FUA большинством дисков вроде как не поддерживается и, соответственно, эмулируется ядром/контроллером (если контроллер не кривой).</p>
+<p>По всей видимости, fsync() отправляет диску команду FLUSH CACHE, а открытие файла с O_SYNC устанавливает бит FUA на все команды записи.</p>
+<p>Есть ли разница? Обычно нет. Но на некоторых контроллерах и/или с некоторыми настройками различия по неустановленным причинам встречаются. И тогда fio -sync=1 и fio -fsync=1 начинают давать разные результаты — возможно, даже на порядки разные результаты.</p>
+<p>Кроме того, у дисков есть команда отключения кэша. Когда он отключен, запросы сброса (fsync) Linux диску не отправляет. Казалось бы, такой режим тоже должен быть эквивалентен выполнению fsync и/или O_SYNC после каждой команды. Но и это не всегда так! На SSD с конденсаторами (то есть серверных моделях с Advanced Power Loss Protection) при отключении кэша iops-ы случайной записи часто вырастают на порядок (например, с 5000 до 40000). Но не всегда, так как это, опять-таки, зависит от контроллера.</p>
+<p>Почему? По-видимому, потому, что команда FLUSH CACHE трактуется диском как «сбрось все кэши» (включая энергонезависимый), а отключение кэша — как «отключи энергозависимый кэш» (а энергонезависимый можешь оставить включенным). Соответственно, запись со сбросом кэша становится медленнее, чем просто отключённый кэш.</p>
+<p>А что с NVMe? В NVMe разнообразие чуть меньше — возможность отключить кэш в спецификации не предусмотрена вообще, но точно так же есть команды FLUSH CACHE и бит FUA. При этом по личным наблюдениям FUA часто игнорируется то ли диском, то ли Linux-ом, и fio -sync=1 выдаёт с NVMe такие же результаты, как и без sync вообще. -fsync=1 при этом ведёт себя как надо и приземляет производительность туда, где ей самое место (на десктопных NVMe — до тех же 1000—2000 iops).</p>
+<p>P.S: Bluestore использует fsync. Filestore использует O_SYNC.</p>
+<h3 id="ssd">Серверные SSD</h3>
+<p>Disabling cache is not a joke!</p>
+<p>fio -ioengine=libaio -name=test -filename=/dev/sdb -(sync|fsync)=1 -direct=1 -bs=(4k|4M) -iodepth=(1|32|128) -rw=(write|randwrite)</p>
+<p><strong>Micron 5100 Eco 960GB</strong></p>
+<p><strong>Запись</strong></p>
+<table>
+<thead>
+<tr>
+<th>sync или fsync</th>
+<th>bs</th>
+<th>iodepth</th>
+<th>rw</th>
+<th>hdparm -W 1</th>
+<th>hdparm -W 0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>sync</td>
+<td>4k</td>
+<td>1</td>
+<td>write</td>
+<td>612 iops</td>
+<td>22200 iops</td>
+</tr>
+<tr>
+<td>sync</td>
+<td>4k</td>
+<td>1</td>
+<td>randwrite</td>
+<td>612 iops</td>
+<td>22200 iops</td>
+</tr>
+<tr>
+<td>sync</td>
+<td>4k</td>
+<td>32</td>
+<td>randwrite</td>
+<td>6430 iops</td>
+<td>59100 iops</td>
+</tr>
+<tr>
+<td>sync</td>
+<td>4k</td>
+<td>128</td>
+<td>randwrite</td>
+<td>6503 iops</td>
+<td>59100 iops</td>
+</tr>
+<tr>
+<td>sync</td>
+<td>4M</td>
+<td>32</td>
+<td>write</td>
+<td>469 MB/s</td>
+<td>485 MB/s</td>
+</tr>
+<tr>
+<td>fsync</td>
+<td>4k</td>
+<td>1</td>
+<td>write</td>
+<td>659 iops</td>
+<td>25100 iops</td>
+</tr>
+<tr>
+<td>fsync</td>
+<td>4k</td>
+<td>1</td>
+<td>randwrite</td>
+<td>671 iops</td>
+<td>25100 iops</td>
+</tr>
+<tr>
+<td>fsync</td>
+<td>4k</td>
+<td>32</td>
+<td>randwrite</td>
+<td>695 iops</td>
+<td>59100 iops</td>
+</tr>
+<tr>
+<td>fsync</td>
+<td>4k</td>
+<td>128</td>
+<td>randwrite</td>
+<td>701 iops</td>
+<td>59100 iops</td>
+</tr>
+<tr>
+<td>fsync</td>
+<td>4M</td>
+<td>32</td>
+<td>write</td>
+<td>384 MB/s</td>
+<td>486 MB/s</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Чтение</strong></p>
+<table>
+<thead>
+<tr>
+<th>bs</th>
+<th>iodepth</th>
+<th>rw</th>
+<th>результат</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>4k</td>
+<td>1</td>
+<td>randread</td>
+<td>6000 iops</td>
+</tr>
+<tr>
+<td>4k</td>
+<td>4</td>
+<td>randread</td>
+<td>15900 iops</td>
+</tr>
+<tr>
+<td>4k</td>
+<td>8</td>
+<td>randread</td>
+<td>18500 iops</td>
+</tr>
+<tr>
+<td>4k</td>
+<td>16</td>
+<td>randread</td>
+<td>24800 iops</td>
+</tr>
+<tr>
+<td>4k</td>
+<td>32</td>
+<td>randread</td>
+<td>37400 iops</td>
+</tr>
+<tr>
+<td>4M</td>
+<td>1</td>
+<td>read</td>
+<td>460 MB/s</td>
+</tr>
+<tr>
+<td>4M</td>
+<td>16</td>
+<td>read</td>
+<td>514 MB/s</td>
+</tr>
+</tbody>
+</table>
+<p>Результаты по чтению не отличаются на hdparm -W 0 и 1.</p>
+<p><strong>Seagate Nytro 1351 XA3840LE10063</strong></p>
+<p>Диск заполнен почти полностью, на 90-100 %.</p>
+<p><strong>Запись</strong></p>
+<table>
+<thead>
+<tr>
+<th>sync или fsync</th>
+<th>bs</th>
+<th>iodepth</th>
+<th>rw</th>
+<th>hdparm -W 1</th>
+<th>hdparm -W 0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>sync</td>
+<td>4k</td>
+<td>1</td>
+<td>randwrite</td>
+<td>18700 iops</td>
+<td>18700 iops</td>
+</tr>
+<tr>
+<td>sync</td>
+<td>4k</td>
+<td>4</td>
+<td>randwrite</td>
+<td>49400 iops</td>
+<td>54700 iops</td>
+</tr>
+<tr>
+<td>sync</td>
+<td>4k</td>
+<td>32</td>
+<td>randwrite</td>
+<td>51800 iops</td>
+<td>65700 iops</td>
+</tr>
+<tr>
+<td>sync</td>
+<td>4M</td>
+<td>32</td>
+<td>write</td>
+<td>516 MB/s</td>
+<td>516 MB/s</td>
+</tr>
+<tr>
+<td>fsync=1</td>
+<td>4k</td>
+<td>1</td>
+<td>randwrite</td>
+<td>288 iops</td>
+<td>18100 iops</td>
+</tr>
+<tr>
+<td>fsync=1</td>
+<td>4k</td>
+<td>4</td>
+<td>randwrite</td>
+<td>288 iops</td>
+<td>52800 iops</td>
+</tr>
+<tr>
+<td>fsync=4</td>
+<td>4k</td>
+<td>4</td>
+<td>randwrite</td>
+<td>1124 iops</td>
+<td>53500 iops</td>
+</tr>
+<tr>
+<td>fsync=1</td>
+<td>4k</td>
+<td>32</td>
+<td>randwrite</td>
+<td>288 iops</td>
+<td>65700 iops</td>
+</tr>
+<tr>
+<td>fsync=32</td>
+<td>4k</td>
+<td>32</td>
+<td>randwrite</td>
+<td>7802 iops</td>
+<td>65700 iops</td>
+</tr>
+<tr>
+<td>fsync=1</td>
+<td>4M</td>
+<td>32</td>
+<td>write</td>
+<td>336 MB/s</td>
+<td>516 MB/s</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Чтение</strong></p>
+<table>
+<thead>
+<tr>
+<th>bs</th>
+<th>iodepth</th>
+<th>rw</th>
+<th>результат</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>4k</td>
+<td>1</td>
+<td>randread</td>
+<td>8600 iops</td>
+</tr>
+<tr>
+<td>4k</td>
+<td>4</td>
+<td>randread</td>
+<td>21900 iops</td>
+</tr>
+<tr>
+<td>4k</td>
+<td>8</td>
+<td>randread</td>
+<td>30500 iops</td>
+</tr>
+<tr>
+<td>4k</td>
+<td>16</td>
+<td>randread</td>
+<td>39200 iops</td>
+</tr>
+<tr>
+<td>4k</td>
+<td>32</td>
+<td>randread</td>
+<td>50000 iops</td>
+</tr>
+<tr>
+<td>4M</td>
+<td>1</td>
+<td>read</td>
+<td>508 MB/s</td>
+</tr>
+<tr>
+<td>4M</td>
+<td>16</td>
+<td>read</td>
+<td>536 MB/s</td>
+</tr>
+</tbody>
+</table>
+<p>Если не хотите 288 иопс — отключайте кэш.</p>
+<h3 id="ceph-hddssd">Ceph HDD+SSD</h3>
+<p>Дано: 3 компа с 4x 7200rpm SATA HDD, с 1 SSD (десктопным) под систему и ceph-mon и с 1 SSD (старым, но серверным, 25000 iops) под журналы. Не самая быстрая 10-гигабитная сеть — флуд пингом средний RTT (задержка) 0.098ms. Развёрнут Ceph + OpenNebula с KVM. Диски под Ceph отформатированы в Bluestore утилитой ceph-volume (то есть используется LVM). Диски виртуалок лежат в обычном реплицированном ceph pool с size=3.</p>
+<p>Создаём Debian-виртуалку (настройки диска kvm по умолчанию — bus=virtio, cache=none), ставим fio, запускаем в ней тест на задержку транзакционной случайной записи: fio -ioengine=libaio -size=10G -sync=1 -direct=1 -name=test -bs=4k -iodepth=1 -rw=randwrite -runtime=60 -filename=./testfile (или можно не случайной, тогда rw=write, но результат идентичный).</p>
+<ol>
+<li>Настройки по умолчанию — все кэши дисков включены (везде hdparm -W 1, в /sys/block/*/queue/write_cache везде write back) — Ж О П А, iops=59, avg lat = 16.88ms</li>
+<li>Отключаю кэш записи SSD с журналами: hdparm -W 0 /dev/sdb — остаётся Ж О П А, iops=58, avg lat = 16.99ms</li>
+<li>Всем LVM-девайсам отключаю кэш записи: for i in /sys/block/dm-*; do echo write through &gt; $i/queue/write_cache; done` — А Ф И Г Е Т Ь, iops=584, avg lat = 1.7ms</li>
+<li>Обратно включаю кэш SSDшке с журналами: hdparm -W 1 /dev/sdb — остаётся iops=582, avg lat = 1.7ms</li>
+<li>Откручиваю все отключения кэшей LVM: for i in /sys/block/dm-*; do echo write back &gt; $i/queue/write_cache; done — обратно жопа, 57 iops, avg lat = 17.2ms</li>
+<li>Опять отключаю кэш журнальным LVM-девайсам: for i in <code>ls /dev/ceph-journals/lvol*</code>; do j=readlink $i; echo write through &gt; /sys/block/${j##../}/queue/write_cache; done — никакого улучшения, всё та же жопа (но с ними это точно безопасно, так как они с конденсаторами :))</li>
+<li>Отключаю кэш HDD LVM-разделам (for i in <code>ls /dev/ceph-*/osd-block*</code>; do j=readlink $i; echo write through &gt; /sys/block/${j##../}/queue/write_cache; done) — бинго, iops=603, avg lat = 1.65ms</li>
+<li>Ага. Простите. Обнаруживаю, что просто писать куда-то write through небезопасно без hdparm -W 0 /dev/sd*, так как <a href="https://www.kernel.org/doc/Documentation/block/queue-sysfs.txt">https://www.kernel.org/doc/Documentation/block/queue-sysfs.txt</a> - Writing to this file can change the kernels view of the device, but it doesn’t alter the device state. ок, добавляю for i in /dev/sd?; do hdparm -W 0 $i; done (отключаю все кэши) — результат похуже, iops=405, avg lat = 2.47ms — но это всё равно лучше, чем изначальная жопа.</li>
+</ol>
+<p>Виртуалку, в которой тестировал — даже не перезапускал между тестами.</p>
+<p><img alt="Note.svg" src="https://yourcmc.ru/wiki/images/5/5f/Note.svg" /> Мораль: отключайте кэш записи всем дискам!</p>
+<p>Частичная разгадка:</p>
+<ol>
+<li>~~В жёстких дисках HGST есть Media Cache~~ (энергонезависимый кэш случайной записи прямо на пластинах) — во-первых, там не HGST, во-вторых, в HGST медиакэш включён всегда и не зависит от hdparm -W 0.</li>
+<li>В жёстких дисках Seagate Enterprise Capacity ST8000NM0055 (коих из общего числа 3) есть встроенный SSD-кэш. И вот он, видимо, действительно включается только при hdparm -W 0.</li>
+<li>Блюстор блокирует запись в журнал записью на HDD. Когда включен спец.кэш, HDD начинает рандомно писать сильно быстрее, и блокировки при сбросе уходят. Действует кэш, естественно, временно — когда он кончится, производительность случайной записи опять упадёт. Однако плюс в том, что в Ceph-е этого, скорее всего, не произойдёт, так как скорость случайной записи ограничивается, собственно, самим Ceph-ом и распределяется по всем дискам кластера :).</li>
+<li>Однако, для обычных дисков без SSD-кэша отключение кэша тоже даёт выигрыш… есть гипотеза, что из-за того же тормоза с bluefs (проверю).</li>
+</ol>
+<p>Более свежие тесты бенчилкой ceph-gobench на том же самом стенде. Версия Ceph Mimic 13.2.2, Bluestore, журналы на SSD.</p>
+<p>osd.1 и osd.3 без выноса журналов на SSD оба показывали 75-80 iops вне зависимости от отключения кэша.</p>
+<p>В таблице показаны однопоточные IOPS с глубиной очереди Q=1 без репликации.</p>
+<table>
+<thead>
+<tr>
+<th>Номер OSD</th>
+<th>Патч + кэш</th>
+<th>Кэш выкл</th>
+<th>Кэш вкл</th>
+<th>Модель диска</th>
+<th>Номер модели</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>osd.0</td>
+<td>365</td>
+<td>308</td>
+<td>226</td>
+<td>Seagate Constellation ES.2</td>
+<td>ST32000645NS</td>
+</tr>
+<tr>
+<td>osd.1</td>
+<td>322</td>
+<td>325</td>
+<td>234</td>
+<td>Hitachi Ultrastar 7K3000</td>
+<td>HUA723020ALA640</td>
+</tr>
+<tr>
+<td>osd.2</td>
+<td>1278</td>
+<td>1392</td>
+<td>230</td>
+<td>Seagate Enterprise Capacity</td>
+<td>ST8000NM0055</td>
+</tr>
+<tr>
+<td>osd.4</td>
+<td>198</td>
+<td>244</td>
+<td>140</td>
+<td>Hitachi Ultrastar A7K2000</td>
+<td>HUA722020ALA330</td>
+</tr>
+<tr>
+<td>osd.5</td>
+<td>251</td>
+<td>185</td>
+<td>154</td>
+<td>Hitachi Ultrastar A7K2000</td>
+<td>HUA722020ALA330</td>
+</tr>
+<tr>
+<td>osd.7</td>
+<td>1351</td>
+<td>1129</td>
+<td>253</td>
+<td>Seagate Enterprise Capacity</td>
+<td>ST8000NM0055</td>
+</tr>
+<tr>
+<td>osd.9</td>
+<td>399</td>
+<td>315</td>
+<td>184</td>
+<td>Hitachi Ultrastar 7K3000</td>
+<td>HUA723020ALA640</td>
+</tr>
+<tr>
+<td>osd.13</td>
+<td>226</td>
+<td>212</td>
+<td>142</td>
+<td>Hitachi Ultrastar A7K2000</td>
+<td>HUA722020ALA330</td>
+</tr>
+<tr>
+<td>osd.3</td>
+<td>393</td>
+<td>386</td>
+<td>241</td>
+<td>Hitachi Ultrastar 7K3000</td>
+<td>HUA723020ALA640</td>
+</tr>
+<tr>
+<td>osd.8</td>
+<td>340</td>
+<td>323</td>
+<td>156</td>
+<td>Hitachi Ultrastar A7K2000</td>
+<td>HUA722020ALA330</td>
+</tr>
+<tr>
+<td>osd.10</td>
+<td>1461</td>
+<td>1319</td>
+<td>273</td>
+<td>Seagate Enterprise Capacity</td>
+<td>ST8000NM0055</td>
+</tr>
+<tr>
+<td>osd.14</td>
+<td>302</td>
+<td>229</td>
+<td>135</td>
+<td>Hitachi Ultrastar A7K2000</td>
+<td>HUA722020ALA330</td>
+</tr>
+</tbody>
+</table>
+<h4 id="_22">Примечания</h4>
+<p>Toshiba MG07ACA14TE тоже замечены в подобном поведении, см. обсуждение в списке рассылки: <a href="https://www.spinics.net/lists/ceph-users/msg60753.html">https://www.spinics.net/lists/ceph-users/msg60753.html</a></p>
+<h2 id="_23"></h2>
+<p>Почему вообще Bluestore такой медленный?</p>
+<p><img alt="Note.svg" src="https://yourcmc.ru/wiki/images/5/5f/Note.svg" /> Третья редакция hatespeech’а.</p>
+<p>Вкратце ситуация такова: После того, как хранилище Ceph переписали с упоротой архитектуры с хранением объектов в ФС XFS и дополнительным журналом, в которой, по идее, был дикий оверхед — быстрее (в смысле random write iops) оно практически не стало. <strong>Логичный ответ на вопрос «какого х#ра» такой: то ли XFS на самом деле написана очень хорошо, то ли Bluestore на самом деле написан очень плохо.</strong> Сразу скажу: оба ответа верны. :-)</p>
+<p>Все мы держим в уме, что 1x 7200rpm HDD может выдать примерно 100—120 iops. Дальше нам говорят — ну, там типа журналирование. Ну ок, как мы рассуждаем — ну, типа, есть журнал, есть диск. Значит типа вроде как синхронно записало в журнал, потом асинхронно постепенно перенесло на диск. Значит, берём 100, умножаем на число дисков в кластере, делим на фактор репликации (3), делим на 1.5-2 (данные+журнал), мы же держим в уме, что наверняка там всё асинхронно и оптимизировано… Получаем, скажем, 100 * 9 дисков / 1.5-2 / 3 = 150—200 iops. Запускаем fio iodepth=128 на собранном кластере — ОЙ, 30 iops. Как так?</p>
+<p>Отчаиваемся и по советам знатоков прикручиваем туда SSD под wal+db. И думаем: ну, теперь у нас быстрая SSD с конденсаторами под журналом, латенси записи 50 микросекунд, значит должно быть много иопсов — ну, в устоявшемся режиме хотя бы 300 (9 * 100 / 3). Тестируем. В 1 поток получаем ну… 60 иопс. Во много — где-то 200. Опять плохо.</p>
+<p>Смысл в том, что собственной реализации журнала у блюстора нет, есть очередь отложенной записи, живущая прямо в RocksDB. RocksDB — это LSM keyvalue база, по сути база-журнал. В принципе, это достаточно разумно, так как всё равно нужно журналировать изменения метаданных, которые там держит блюстор. Когда очередь отложенной записи засунута туда же, изменение можно коммитить одной транзакцией (соответственно, одним fsync-ом).</p>
+<p>И в этой схеме есть одно большое отличие от filestore — оно заключается в том, что в filestore журнал работал как буфер для временного повышения нагрузки на запись. Пока в журнале было место, случайная запись была очень быстрой, а журналы обычно делали размеров в несколько гигабайт. В bluestore же «очередь отложенной записи» очень маленькая и сбрасывается через каждые 64 запроса. То есть, bluestore не пишет быстрее, чем в среднем может медленное устройство (HDD).</p>
+<p>Плюс к этому на практике (при просмотре strace) оказывается, что fsync-ов на каждую операцию записи делается не 1, а 2. Второй fsync — это лишняя транзакция записи в журнал BlueFS, сводящаяся к обновлению размера лог-файла RocksDB. Это нафиг не нужно, так как в опциях RocksDB в цефе по умолчанию стоит wal_recovery_mode=kTolerateCorruptedTailRecords и recycle_log_number=4, но это так, потому что без этого у них из-за другого бага корраптятся данные при падении OSD. Что на самом деле исправляется легко, я им даже отправил фикс — <a href="https://tracker.ceph.com/issues/38559">https://tracker.ceph.com/issues/38559</a> <a href="https://github.com/ceph/ceph/pull/26909">https://github.com/ceph/ceph/pull/26909</a> - и они даже вроде как обещают его влить. С фиксом на HDD ускорение случайной записи при глубине очереди 1 — двукратное (с 33 % до 66 % возможностей самого HDD, обычно как раз с 33 до 66 иопс). При глубине очереди 128 — почти нулевое.</p>
+<p>ОК, ладно. В конце концов мы решаем — гулять так гулять и собираем кластер на серверных SSD (или вообще NVMe). Думаем — ну теперь-то?!… Бенчим в 1 поток. 300 иопс. Охреневаем окончательно и идём гуглить эту статью :)</p>
+<p>Здесь смысл в том, что в голове у всех сидит мысль «а, ну да, оно медленное, потому что слишком много пишет на диск — диск же относительно медленный, а софт быстрый». А вот хрен. :) оказывается, Ceph довольно сложно разогнать до latency &lt; 1 ms, и виной тому не диски, а сам Ceph. То есть да, Ceph при записи мелкими блоками порождает WA (Write Amplification) 3..5 на каждой OSD — это легко посчитать через тот же strace. Но на хороших SSD это практически не занимает времени, одна операция 4кб записи занимает условно 20 микросекунд. Проблема именно в С++ коде Ceph.</p>
+<p>Причём даже не до конца понятно, что конкретно там тормозит — такое ощущение, что всё целиком. Выявить какие-то «горячие точки» при профилировании трудно, просто при записи выполняется много всякой C++ной мелочи, которая суммарно отъедает достаточно много времени. Одно горячее место — вычисление цифровых подписей пакетов (включено по умолчанию, можно отключить), другое — сериализация/десериализация (код обрабатывает каждое поле пакета, чуть ли не каждый байт, отдельным вызовом функции). Дальше идут уже malloc-и, которых тоже происходят тонны. Причём всё это происходит в несколько потоков. На это ещё навёрнута какая-то странная смесь буферизованного и прямого I/O.</p>
+<p>RocksDB не виновата — её я пробовал бенчить, она быстрая, ~8000 транзакций в секунду на NVMe в 1 поток она даёт и даже масштабируется до ~120000 tps в 256 потоков. А Ceph OSD даже с максимальным параллелизмом на той же NVMe даёт только 10-20 тысяч iops.</p>
+<p>Сеть тоже не виновата — её я пробовал бенчить с помощью nbd (network block device). При прямом доступе диск выдаёт 50000 iops, при пробросе диска с одного сервера на другой через nbd — 8000 iops. То есть, добавленная latency сети — примерно 0.1ms. Это не много.</p>
+<p>И даже Bluestore не совсем виноват. На NVMe Bluestore с некоторыми тюнами всё-таки осиливает завершить запись примерно за 0.3мс. И в то же время код самого Ceph сжирает ещё 0.4мс.</p>
+<p>По сути, нужно было бы добиться ситуации, в которой Ceph бы отъедал 0.1ms и Bluestore ещё 0.1ms. Сеть съест ещё 0.1ms и тогда на хорошей NVMe получится latency ~ 0.33ms, что в 1 поток соответствует 3000 операциям записи в секунду. До локальной SSD это всё равно не дотянуло бы, но, тем не менее, было бы уже очень-очень неплохо. Тогда, скажем, можно будет бороться за CPU: поставив самолётные CPU по 20000$ каждый, настроив ядро и снизив время Ceph+Bluestore ещё в 2 раза, вы получите уже 0.23ms = ~4350 iops. А допилив поддержку Infiniband, может, получите и все 6000 iops. Пока же код не оптимизирован… всё это — мёртвому припарки.</p>
+<p>Авторы сейчас пытаются пилить новую реализацию OSD на асинхронном фреймворке Seastar (Crimson OSD), так что у нас есть теоретические шансы увидеть Ceph, который будет в несколько раз быстрее. Хотя, конечно, там вопрос далеко не только в многопоточности и блокировках — по идее, много съедает именно программная логика. Но так как её они фактически тоже частично переписывают с нуля — она тоже может улучшиться.</p>
+<h2 id="_24"></h2>
+<p>DPDK и SPDK</p>
+<ul>
+<li>DPDK = Data Plane Developer Kit, быстрая библиотека от Intel для работы с (в основном) сетевыми устройствами в userspace, без задействования драйверов ядра</li>
+<li>SPDK = Storage Performance Developer Kit, основанная на DPDK библиотека для работы с NVMe SSD, тоже в пространстве пользователя. Ещё есть форк libnvme — SPDK, отвязанный от DPDK</li>
+<li>DPDK включается через ms_type=async+dpdk</li>
+<li>SPDK включается для NVMe-шек передачей в качестве пути девайса spdk:&lt;серийный номер pcie устройства&gt; и ручным созданием OSD по инструкции Manual Deployment</li>
+<li>Это в теории — на практике (проверялся Mimic 13.2.x) НИ ХРЕНА не работает, ни DPDK, ни SPDK<ul>
+<li>С DPDK Ceph «из коробки» даже не собирается — это в общем-то довольно легко исправить, но даже когда добиваешься сборки и запуска — OSD падают после обработки ~50 пакетов</li>
+<li>С SPDK Ceph собирается и даже собран по умолчанию — но оно опять-таки не работает — вскоре после запуска OSD просто виснет в пространстве</li>
+<li>Code is there, так что, вероятно, всё это можно исправить, если подебажить подольше</li>
+<li>Есть сообщения, что SPDK всё-таки работает из коробки, просто не даёт никакого выигрыша производительности. Но мне пока завести его не удалось</li>
+</ul>
+</li>
+<li>Однако в силу неоптимальной реализации самого Ceph ни от DPDK, ни от RDMA ожидать ускорения не приходится. Задержка Ceph в 10-100 раз выше сетевой задержки, так что, уменьшая сетевую задержку, добиться практически нечего. Один чувак даже проводил эксперимент — отрезал код AsyncMessenger-а от всего остального цефа и пробовал бенчить его отдельно: <a href="https://www.spinics.net/lists/ceph-devel/msg43555.html">https://www.spinics.net/lists/ceph-devel/msg43555.html</a> — и получил всего лишь ~80000 iops.</li>
+<li>В перспективе SPDK будет на хрен не нужен, так как в ядро приняли штуку под названием io_uring: <a href="https://lore.kernel.org/linux-block/20190116175003.17880-1-axboe@kernel.dk/">https://lore.kernel.org/linux-block/20190116175003.17880-1-axboe@kernel.dk/</a> - с ней обычный код прокачивает через Optane-ы практически столько же iops, сколько и SPDK, при заметно меньшем объёме геморроя на поддержку работы с SPDK/DPDK</li>
+</ul>
+<h2 id="_25"></h2>
+<p>RAID WRITE HOLE</p>
+<p>В RAID-е есть один интересный момент: при отказе диска и одновременном отключении питания RAID 5 может кораптить данные.</p>
+<p>Суть такая: допустим, есть три диска в рейд5. Есть какая-то пара блоков данных A и B. Соответственно на дисках хранятся: A, B, A xor B.</p>
+<p>Теперь представим, что мы пишем в блок B данные B2. Для этого нам надо обновить данные на двух дисках: B -&gt; B2, A+B -&gt; A+B2. Теперь представим, что один из них успел записать, а второй не успел. Тут вырубилось питание и одновременно сдох диск A (или диск сдох от умирания питания, или контроллер повис и ядро в панику упало...). Что мы имеем на дисках?</p>
+<p>?, B2, A+B либо ?, B, A+B2.</p>
+<p>Теперь при попытке восстановить A мы получим A+B+B2 =&gt; опа! Покорраптились данные, которые даже не записывались!</p>
+<p>Из-за этого raid всегда делает полный resync после нештатного вырубания питания. И, собственно, такая же потеря данных возможна при отказе диска до завершения resync. mdadm RAID5 в таких ситуациях (когда одновременно потерян диск и массив помечен как грязный) просто отказывается стартовать.</p>
+<p>И именно чтоб этого избежать, в цефе сделано полное журналирование всех данных на уровне отдельных дисков (т.е. OSD). Потому что других способов борьбы с этой проблемой НЕТ, а при работе по сети отказы гораздо более вероятны, чем при работе RAID-массива на локальных дисках. Даже write intent bitmap может только сказать вам, потеряли вы какие-то данные или нет, но не может помочь их восстановить, если они потеряны.</p>
+<p>Так что Ceph надёжнее RAID-а. :) медленнее (на SSD). Но надёжнее и не требует resync-а.</p>
+<h2 id="_26"></h2>
+<p>Краткий экскурс в устройство SSD и флеш-памяти</p>
+<p>Особенность NAND флеш-памяти заключается в том, что пишется она мелкими блоками, а стирается большими. Актуальное соотношение для Micron 3D NAND — страница (page) 16 КБ, блок стирания (block) — 16 или 24 МБ (1024 или 1536 страниц, MLC/TLC соответственно). Случайное чтение страницы быстрое. Запись тоже, но писать можно только в предварительно стёртую область — а стирание медленное, да ещё и число стираний каждого блока ограничено — после нескольких тысяч (типичное значение для MLC) блок физически выходит из строя. В более дешёвых и плотных (MLC, TLC, QLC — 2-4 бита на ячейку) чипах лимит стираний меньше, в более дорогих и менее плотных (SLC, один бит на ячейку) — больше. Соответственно, при «тупом» подходе — если при записи каждого блока его просто стирать и перезаписывать — случайная запись во флеш-память, во-первых, будет очень медленной, а во-вторых, она будет быстро выводить её из строя.</p>
+<p>Но почему тогда SSD быстрые? А потому, что внутри SSD на самом деле есть очень мощный и умный контроллер (1-2 гигагерца, типично 4 ядра или больше, примерно как процессоры мобильников), и на нём выполняется нечто, называемое Flash Translation Layer — прошивка, которая переназначает каждый мелкий логический сектор в произвольное место диска. FTL всё время поддерживает некоторое количество свободных стёртых блоков и направляет каждую мелкую случайную запись в новое место диска, в заранее стёртую область. Поэтому запись быстрая. Одновременно FTL делает дефрагментацию свободного места и Wear Leveling (распределение износа), направляя запись и перемещая данные так, чтобы все блоки диска стирались примерно одинаковое количество раз. Кроме того, во всех SSD некоторый % реального места зарезервирован под Wear Leveling и не виден пользователю («overprovision»), а в хороших серверных SSD этот процент весьма большой — например, в Micron 5100 Max это +60 % ёмкости (в Micron 5100 Eco — всего лишь +7.5 %, 1.92 ТБ SSD содержит 10 чипов NAND по 1.5 терабита и 2 по 768 гигабит).</p>
+<p>Именно из наличия FTL вытекает и проблема с энергонезависимостью и «power loss protection»-ом. Карты отображения секторов — это метаданные, которые при сбросе кэша тоже нужно сбрасывать в постоянную память, и именно этот сброс и вносит торможение в работу настольных SSD с fsync.</p>
+<p>Кстати, из размера страницы 16 КБ следует, что когда вы используете десктопную SSD под мелкую транзакционную перезапись, вы ещё и сильно снижаете срок её жизни, так как при перезаписи по 4 КБ с sync-ами write amplification составляет не менее 16 КБ / 4 КБ = 4. <em>Примечание: в современных SSD распространена такая вещь, как SLC Cache — использование части той же самой флеш-памяти в SLC-режиме для первых X гигабайт записи. При SLC-записи размер той же страницы, вероятно, уменьшается в 3 раза, так как вместо 3 бит в каждой ячейке хранится только 1. С другой стороны, это всё равно та же страница, которая номинально вмещает 16 КБ, так что как тут считать WA, не совсем ясно.</em></p>
+<p>Дополнение: когда я попытался кого-то в списке рассылки полечить на тему, что «все SSD делают fsync», мне в ответ кинули статью: <a href="https://www.usenix.org/system/files/conference/fast13/fast13-final80.pdf">https://www.usenix.org/system/files/conference/fast13/fast13-final80.pdf</a>. В общем, суть статьи в том, что в 2013 году нормой было то, что SSD вообще не сбрасывали метаданные на диск при fsync, и при отключении питания это приводило к разным весёлым вещам вплоть до (!!!) полного отказа SSD.</p>
+<p>Есть экземпляры старых SSD без конденсаторов (OCZ Vector/Vertex), которые при этом выдают большие iops на запись с fsync. Как это возможно? Неизвестно, но есть предположение, что суть как раз в небезопасности записи. Принцип работы флеш-памяти за последние годы вроде как не менялся — в SSD как раньше был FTL, так и сейчас FTL. Как достигнуть быстрой записи, если постоянно сбрасывать на диск карты трансляции — хз… наверное, если только сделать некое подобие лог-структурированной ФС внутри — писать всё время вперемешку метаданные и данные. Но при этом, по идее, при старте всё это «добро» придётся сканировать и старт/монтирование станет долгим. А в SSD долгого монтирования вроде как нет.</p>
+<p>Ну и, собственно, «power loss protection», видимо, бывает простой, а бывает advanced. Простой означает просто «мы корректно делаем fsync и не сдохнем при отключении питания», а advanced означает наличие конденсаторов и быструю безопасную запись с fsync. Сейчас, в 2018—2019 годах, «обычный» PLP, похоже, всё-таки стал нормой и при отключении питания большая часть SSD терять данные и умирать уже не должна.</p>
+<h3 id="usb-">Бонус: USB-флешки</h3>
+<p>А почему тогда USB-флешки такие медленные? Случайная запись на флешку 512-байтными (или 4 Кб) блоками обычно идёт со скоростью 2-3 iops. А флеш-память там примерно та же, что в SSD — ну, более дешёвые и мелкие чипы с меньшими размерами страницы и блока (часто 4 КБ страница и 4 МБ блок), но принцип тот же и разница в скорости не на порядки. Ответ кроется в том, что на флешках тоже есть FTL (и даже Wear Leveling), но по сравнению с SSD-шным он маленький и тупой. У него слабый процессор и мало памяти. Из-за малого объёма RAM контроллеру флешки, в отличие от контроллера SSD, негде хранить полную таблицу сопоставления виртуальных и реальных секторов — поэтому отображаются не сектора, а крупные блоки где-то по мегабайту или больше, и при записи есть лимит на количество «открытых» блоков. Как это происходит:</p>
+<ul>
+<li>Допустим, вы пишете в сектор X.</li>
+<li>Контроллер отображает блок, которому принадлежит этот сектор, на реальный блок, и «открывает» его — выделяет пустой блок, запоминает, что он «дочерний» для открытого и записывает туда один изменённый вами сектор.</li>
+<li>Таким макаром можно открыть максимум N разных блоков; число N обычно очень маленькое — от 3 до 6.</li>
+<li>Дальше если вы пишете следующий сектор из уже открытого блока — он просто записывается в его дочерний блок (что быстро).</li>
+<li>Если же следующий записываемый сектор принадлежит другому блоку — какой-то из открытых блоков приходится закрывать и «сливать» содержимое дочернего блока с оригинальным.</li>
+</ul>
+<p>Для копирования больших файлов на флешку, отформатированную в любую из стандартных файловых систем, двух блоков достаточно: в один открытый блок пишутся данные, во второй — метаданные записываемого файла. Запись последовательная, всё быстро. А вот при случайной записи вы перестаёте попадать в уже «открытые» блоки и каждая операция записи превращается в полное стирание. Тут-то и начинаются тормоза…</p>
+<h2 id="_27"></h2>
+<p>Пример теста от Micron</p>
+<p>Пример самолётного сетапа от Micron с процами по полляма (2x Xeon Platinum 8168), 2x100-гбит сетью (точнее 2x2x100, так как 2 карты по 2 порта) и 10x топовыми NVMe (с конденсаторами, ага) в каждом узле, 4 узла, репликация 2x: <a href="https://www.micron.com/resource-details/30c00464-e089-479c-8469-5ecb02cfe06f">https://www.micron.com/resource-details/30c00464-e089-479c-8469-5ecb02cfe06f</a></p>
+<p>Всего 367011 iops на запись в пике на весь кластер, при 100 % загрузке CPU. Казалось бы, довольно много, но если поделить 367000/40 osd — получится 9175 иопс на 1 osd. С учётом репликации на диски нагрузка двойная, выходит, 18350 иопс. Ок, журналы тоже удваивают нагрузку, итого — 36700 iops на запись смог выжать ceph из одной NVMe… которая сама по спеке может 260000 иопс в одиночку. Вот такой вот overhead.</p>
+<p>Данных по задержкам в 1 поток нет (а было бы интересно узнать).</p>
+<p>Примечание: PDF-ка по ссылке обновлена, новый результат с теми же тюнами, что ниже, составил 479882 iops на запись и 2277453 iops на чтение. Старая <a href="https://yourcmc.ru/wiki/images/c/c0/Micron_9200_ceph_3.0_reference_architecture.pdf" title="Micron 9200 ceph 3.0 reference architecture.pdf">тут</a>. Что и подтверждает, что разница между Micron 9200 и 9300 для Ceph незаметна.</p>
+<h3 id="_28">Апдейт</h3>
+<p><a href="https://www.micron.com/-/media/client/global/documents/products/other-documents/micron_9300_and_red_hat_ceph_reference_architecture.pdf">https://www.micron.com/-/media/client/global/documents/products/other-documents/micron_9300_and_red_hat_ceph_reference_architecture.pdf</a></p>
+<p>NVMe обновились до Micron 9300 (максимальной ёмкости 12.8 ТБ). iops-ов такие диски дают даже не 260 тыс., а 310 тыс. Всё остальное осталось прежним. Итого 100 клиентами на запись сняли 477029 iops. Однако надо понимать, что каждому клиенту при этом досталось лишь 4770 iops. 10 клиентами сняли 294000 iops — то есть на 1 клиента 29400 иопс, что всё-таки поприличней.</p>
+<p>Почему стало лучше? Предположительно, благодаря тюнингу. По сравнению с прошлым тестом они:</p>
+<ul>
+<li>отключили чексуммы мессенджера (ms_crc_data=false) и чексуммы блюстора (bluestore_csum_type=none)</li>
+<li>затюнили rocksdb: bluestore_rocksdb_options = compression=kNoCompression,max_write_buffer_number=64,min_write_buffer_number_to_merge=32,recycle_log_file_num=64,compaction_style=kCompactionStyleLevel,<br />
+    write_buffer_size=4MB,target_file_size_base=4MB,max_background_compactions=64,level0_file_num_compaction_trigger=64,level0_slowdown_writes_trigger=128,<br />
+    level0_stop_writes_trigger=256,max_bytes_for_level_base=6GB,compaction_threads=32,flusher_threads=8,compaction_readahead_size=2MB<ul>
+<li>64x32x4 MB memtable (number x merge x size) вместо стандартных 4x1x256 MB. Скорее всего, это и сыграло основную роль. Эффект не совсем очевиден, но, вероятно, это снижает нагрузку на CPU, потому что поиск в 64 маленьких memtable быстрее, чем поиск в 1 (или 4) больших.</li>
+<li>сильно изменён max_bytes_for_level_base — с 256 мб он поднят до 6 гб!</li>
+<li>добавлены потоки compaction-а.</li>
+</ul>
+</li>
+<li>выдали 14 гб RAM каждому OSD</li>
+<li>osd_max_pg_log_entries=osd_min_pg_log_entries=osd_pg_log_dups_tracked=osd_pg_log_trim_min = 10 (хз, по-моему, ничего не даёт)</li>
+</ul>
+<p>Также надо отметить, что:</p>
+<ul>
+<li>cephx у них уже был отключён. В этот раз зачем-то добавили и отключение подписей — видимо, читали мою статью. Но это нафиг не надо, при отключенном cephx подписи можно уже не отключать.</li>
+<li>debug objecter = 0/0 и вообще отключенные дебаги у них тоже уже были</li>
+<li>с prefer_deferred_size и min_alloc_size они, видимо, не игрались</li>
+<li>обновлённые диски не играют никакой роли гарантированно. 260000 или 310000 iops — для цефа никакой разницы нет.</li>
+</ul>
+<h3 id="vsan">Бонус: висян (vSAN)</h3>
+<p><a href="https://media-www.micron.com/-/media/client/global/documents/products/other-documents/micron_vsan_6,-d-,7_on_x86_smc_reference_architecture.pdf">Micron Accelerated All-Flash SATA vSAN 6.7 Solution</a></p>
+<p>Конфигурация серверов:</p>
+<ul>
+<li>384 GB RAM 2667 MHz</li>
+<li>2X Micron 5100 MAX 960 GB (randread: 93k iops, randwrite: 74k iops)</li>
+<li>8X Micron 5200 ECO 3.84TB (randread: 95k iops, randwrite: 17k iops)</li>
+<li>2x Xeon Gold 6142 (16c 2.6GHz)</li>
+<li>Mellanox ConnectX-4 Lx</li>
+<li>Connected to 2x Mellanox SN2410 25GbE switches</li>
+</ul>
+<p>«Соответствует конфигурации VMWare AF-6, по заявлениям дающей от 50K iops чтения на каждый сервер»</p>
+<ul>
+<li>2 реплики (аналог size=2 в цефе)</li>
+<li>4 сервера</li>
+<li>4 ВМ на каждом сервере</li>
+<li>8 диска на каждую ВМ</li>
+<li>4 потока на каждый диск</li>
+</ul>
+<p>Суммарный параллелизм ввода/вывода: 512</p>
+<p>100%/70%/50%/30%/0% write</p>
+<ul>
+<li>«Baseline» (данные умещаются в кэш): 121k/178k/249k/314k/486k iops</li>
+<li>«Capacity» (не умещаются): 51k/66k/90k/134k/363k</li>
+<li>Задержка равна 1000*512/IOPS миллисекунд во всех тестах (1000мс * параллелизм / iops)</li>
+<li><strong>Нет тестов задержки с низким параллелизмом</strong></li>
+<li><strong>Нет тестов линейного чтения/записи</strong></li>
+</ul>
+<p>Заключение:</p>
+<ul>
+<li>~3800 iops на запись в пересчёте на каждый диск данных</li>
+<li>~1600 iops на запись в пересчёте на диск, если данные не влезают в кэш</li>
+<li>~15000 iops на чтение в пересчёте на каждый диск данных</li>
+<li>~11400 iops на чтение в пересчёте на диск, если данные не влезают в кэш</li>
+<li>Итого: при параллельной нагрузке в данном тесте vSAN смотрится хуже, чем Ceph</li>
+<li>С другой стороны, vSAN гиперконвергентный, а Ceph, в идеале, нет — или тормозит сильнее, чем мог бы</li>
+</ul>
+<h2 id="_29"></h2>
+<p>Модели</p>
+<ul>
+<li>Micron 5100/5200, 9300. Возможно также 5300, 7300</li>
+<li>HGST SN260</li>
+<li>Intel P4500</li>
+</ul>
+<p><a href="https://docs.google.com/spreadsheets/d/1E9-eXjzsKboiCCX-0u0r5fAjjufLKayaut_FOPxYZjc">https://docs.google.com/spreadsheets/d/1E9-eXjzsKboiCCX-0u0r5fAjjufLKayaut_FOPxYZjc</a></p>
+<h2 id="_30"></h2>
+<p>Резюме</p>
+<p>Резюмируя вышесказанное, для random write iops:</p>
+<ul>
+<li>Использовать только SSD с конденсаторами. NVMe это тоже касается. Подсказка: 99 % desktop SSD и NVMe конденсаторов не имеют.</li>
+<li>…и надо отключать этим SSD кэш (hdparm -W 0), если они SATA!</li>
+<li>В случае HDD — полезны HDD со встроенным SSD-кэшем. Например, почти все большие Seagate EXOS таковы, хоть на них это часто и не заявлено.</li>
+<li>…и им тоже бывает полезно отключить кэш (hdparm -W 0). Только проверьте, что это улучшает iops-ы, а не ухудшает.</li>
+<li>SMR HDD не использовать под Ceph никогда.</li>
+<li>Отключить powersave: cpupower frequency-set -g performance, cpupower idle-set -D 0</li>
+<li>Отключить электронные подписи:<br />
+    cephx_require_signatures = false<br />
+    cephx_cluster_require_signatures = false<br />
+    cephx_sign_messages = false<br />
+    (и монтировать rbd map / cephfs ядерным драйвером с опциями -o nocephx_require_signatures,nocephx_sign_messages)</li>
+<li>min_alloc_size=16384 (так и было по умолчанию, в последних версиях поменяли на 4096 и я рекомендовал 4096, а похоже, что зря)</li>
+<li>Актуально для версий до Nautilus включительно — [global] debug objecter = 0/0 (там большой тормоз на клиентской стороне)</li>
+<li>В QEMU юзать virtio</li>
+<li>Если у вас All-flash кластер и вам критичны либо iops-ы случайной <em>синхронной</em> записи (fsync/O_SYNC, например в случае СУБД), либо суммарные iops-ы <em>параллельной</em> случайной записи, то нужно отключить rbd cache (в qemu опция cache=none). Если не критичны или у вас HDD, лучше поставить cache=writeback.</li>
+<li>Чтобы мог работать cache=unsafe, поставить [global] rbd cache writethrough until flush = false</li>
+<li>~~Для HDD-only или Bad-SSD-Only и версий до Nautilus включительно — снять ручник <a href="https://github.com/ceph/ceph/pull/26909">https://github.com/ceph/ceph/pull/26909</a>~~ - уже влит</li>
+<li>Внутри ВМ: mount -o lazytime</li>
+</ul>
+<h2 id="_31"></h2>
+<p>Примечание</p>
+<p>Написанное в статье актуально для версий Ceph, доступных на момент последней правки (см. «История» вверху страницы). Конкретно — 12-15 luminous-octopus. Различия между версиями минимальны, всё пока что актуально. Если вдруг в будущем что-то пофиксят и всё вдруг станет чудесно быстрым — сам побегу обновляться первым и поправлю статью :).</p>
+<h2 id="_32"></h2>
+<p>См. также</p>
+<ul>
+<li><a href="https://www.ixsystems.com/community/resources/list-of-known-smr-drives.141/">https://www.ixsystems.com/community/resources/list-of-known-smr-drives.141/</a> - список SMR дисков (вероятно, не полный)</li>
+<li><a href="http://vasilisc.com/bluestore-ceph-2017">http://vasilisc.com/bluestore-ceph-2017</a> - кое-что про bluestore, местами не совсем верно, но тем не менее</li>
+<li>
+<p><a href="https://amarao-san.livejournal.com/3437997.html">https://amarao-san.livejournal.com/3437997.html</a> - «IOPS не существует» — сказ о latency</p>
+<p><em>Прим.вред — iops существуют, но с обязательным указанием режима тестирования и параллелизма</em></p>
+</li>
+<li>
+<p><a href="https://yourcmc.ru/afr-calc/">https://yourcmc.ru/afr-calc/</a> - мой калькулятор вероятности потери данных в кластере Ceph в зависимости от размера кластера и схемы отказоустойчивости</p>
+</li>
+</ul>
+<h2 id="_33"></h2>
+<p>Советы лучших собаководов</p>
+<p>Офлайн балансер:</p>
+<p>ceph osd getmap -o om; osdmaptool om --upmap upmap.sh --upmap-deviation 0; bash upmap.sh; rm -f upmap.sh om</p>
+<p><a href="https://yourcmc.ru/wiki/%D0%A1%D0%BB%D1%83%D0%B6%D0%B5%D0%B1%D0%BD%D0%B0%D1%8F:MobileLanguages/%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph">Читать на другом языке</a></p>
+<p><a href="https://yourcmc.ru/wiki/%D0%A1%D0%BB%D1%83%D0%B6%D0%B5%D0%B1%D0%BD%D0%B0%D1%8F:History/%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph">Последняя правка сделана 2 года назад</a> участником <a href="https://yourcmc.ru/wiki/Special:UserProfile/VitaliyFilippov">VitaliyFilippov</a></p>
+<ul>
+<li>
+<h2 id="yourcmcwiki">YourcmcWiki</h2>
+<p>- Мобильный
+- <a href="https://yourcmc.ru/wiki/index.php?title=%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%8C_Ceph&amp;mobileaction=toggle_view_desktop">Стационарный</a>
+- Содержимое доступно в соответствии с <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>, если не указано иное.</p>
+</li>
+<li>
+<p><a href="https://yourcmc.ru/wiki/YourcmcWiki:%D0%9F%D0%BE%D0%BB%D0%B8%D1%82%D0%B8%D0%BA%D0%B0_%D0%BA%D0%BE%D0%BD%D1%84%D0%B8%D0%B4%D0%B5%D0%BD%D1%86%D0%B8%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D0%B8" title="YourcmcWiki:Политика конфиденциальности">Конфиденциальность</a></p>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  К началу
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Trustinfo.ru, 2025
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.sections", "navigation.path", "navigation.top", "navigation.prune"], "search": "../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "\u0421\u043a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u043d\u043e \u0432 \u0431\u0443\u0444\u0435\u0440", "clipboard.copy": "\u041a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0432 \u0431\u0443\u0444\u0435\u0440", "search.result.more.one": "\u0415\u0449\u0451 1 \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.more.other": "\u0415\u0449\u0451 # \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.none": "\u0421\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439 \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d\u043e", "search.result.one": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e 1 \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0435", "search.result.other": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439: #", "search.result.placeholder": "\u041d\u0430\u0447\u043d\u0438\u0442\u0435 \u043f\u0435\u0447\u0430\u0442\u0430\u0442\u044c \u0434\u043b\u044f \u043f\u043e\u0438\u0441\u043a\u0430", "search.result.term.missing": "\u041e\u0442\u0441\u0443\u0442\u0441\u0442\u0432\u0443\u0435\u0442", "select.version": "\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u0432\u0435\u0440\u0441\u0438\u044e"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+    
+  </body>
+</html>
