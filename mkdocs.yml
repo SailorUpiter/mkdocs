@@ -39,3 +39,4 @@ markdown_extensions:
   - admonition
   - pymdownx.details
   - pymdownx.superfences
+  - markdown.extensions.nl2br
