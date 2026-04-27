@@ -5,7 +5,7 @@
 Подготавливаем ноду для установки. Все это дело работает на джаве. И хоть в архиве опенсерча уже есть жаба лучше поставить ее прямо на машину, что бы было проще работать
 ```
 sudo apt update && sudo apt upgrade -y
-sudo apt install openjdk-25-jdk
+sudo apt install -y openjdk-25-jdk
 ```
 Отключим свап и настроем виртуальную память хоста
 ```
@@ -18,18 +18,12 @@ cat /proc/sys/vm/max_map_count
 ```
 После обновления и установки жабы, лучше всего перезагрузится. Далее мы качаем архив с опенсерчем с оффсайта 
 ```
-wget https://artifacts.opensearch.org/releases/bundle/opensearch/3.5.0/opensearch-3.5.0-linux-x64.tar.gz
+wget https://artifacts.opensearch.org/releases/bundle/opensearch/3.6.0/opensearch-3.6.0-linux-x64.deb
+sudo env OPENSEARCH_INITIAL_ADMIN_PASSWORD=5ruXurur! dpkg -i opensearch-3.6.0-linux-x64.
+sudo systemctl enable opensearch
 ```
-```
-Распакуем архив в папку
-```
-tar -xvf opensearch-3.5.0-linux-x64.tar.gz -С /etc/opensearch
-```
-Создадим папку для хранения сертификатов и перейдем в нее.
-```
-sudo mkdir /etc/opensearch/ssl
-cd /etc/opensearch/ssl
-bash ssl.sh
-```
+
 Выполним скрипт ssl.sh (лежит в доке как пример) для создания самоподписанных сертификатов и хранилища сертификатов. СОздадутся корневой сертификат ЦА. Так же создастся на его основе админский сертификат и сертификаты для каждой ноды. Это нужно что бы общение между нодами и дашбордой были зашифрованы. Так же выпустится админский серт для зашифрованного подключения админа.
 После завершения подготовки требуется нарисовать кофниг. Конфиг имеет формат YAML и различается в зависимости от кластера или стендэлон опенсерча
+
+
