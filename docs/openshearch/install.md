@@ -19,7 +19,7 @@ cat /proc/sys/vm/max_map_count
 После обновления и установки жабы, лучше всего перезагрузится. Далее мы качаем архив с опенсерчем с оффсайта 
 ```
 wget https://artifacts.opensearch.org/releases/bundle/opensearch/3.6.0/opensearch-3.6.0-linux-x64.deb
-sudo env OPENSEARCH_INITIAL_ADMIN_PASSWORD=5ruXurur! dpkg -i opensearch-3.6.0-linux-x64.
+sudo env OPENSEARCH_INITIAL_ADMIN_PASSWORD=5ruXurur! dpkg -i opensearch-3.6.0-linux-x64.deb
 sudo systemctl enable opensearch
 ```
 
@@ -27,3 +27,15 @@ sudo systemctl enable opensearch
 После завершения подготовки требуется нарисовать кофниг. Конфиг имеет формат YAML и различается в зависимости от кластера или стендэлон опенсерча
 
 
+ mv /etc/opensearch/opensearch.yml /etc/opensearch/opensearch.yml.back
+
+ rm /etc/opensearch/*.pem
+
+vim /etc/opensearch/opensearch.yml
+
+systemctl start opensearch
+
+
+wget https://artifacts.opensearch.org/releases/bundle/opensearch-dashboards/3.6.0/opensearch-dashboards-3.6.0-linux-x64.deb
+
+$2y$12$7.7YOQi6.CEN1VSNXg3BqefgQLEeqDbsqxNBNhY1tgZ085q1eZeCK
