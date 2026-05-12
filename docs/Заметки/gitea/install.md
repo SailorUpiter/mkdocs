@@ -1,5 +1,6 @@
 # Нструкция по установке Gitea
 Примитивная инструкция по установке gitea.
+Ссылка на официальную документацию https://docs.gitea.com/next/installation/install-from-binary
 Требования и версии
 Ubuntu 22.04
 postgresql 17.9
