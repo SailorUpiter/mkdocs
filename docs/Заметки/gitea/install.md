@@ -84,7 +84,7 @@ adduser \
    --home /home/git \
    git
 ```
-6) Создадим необходимые для работы директории и выдадим созданному юзеру права на них. Права 770 на директорию /etc/gitea выдаются только для первоначальной настройки. После настройки рекомендуется дать права на чтение 750 
+1) Создадим необходимые для работы директории и выдадим созданному юзеру права на них. Права 770 на директорию /etc/gitea выдаются только для первоначальной настройки. 
 ```
 mkdir -p /var/lib/gitea/{custom,data,log}
 chown -R git:git /var/lib/gitea/
@@ -93,7 +93,7 @@ mkdir /etc/gitea
 chown root:git /etc/gitea
 chmod 770 /etc/gitea
 ```
-7) Создадим системный юнит для запуска gitea как сервиса systemd. Создадим файл юнита по пути /etc/systemd/system/gitea.service
+1) Создадим системный юнит для запуска gitea как сервиса systemd. Создадим файл юнита по пути /etc/systemd/system/gitea.service
 Добавим конфиг юнита
 ```
 [Unit]
@@ -135,3 +135,7 @@ http://ip-addr-or-fqdn:3000/
 gitea admin user change-password --username user --password password --config /etc/gitea/app.ini:
 ```
 4) Так же стоит запретить самостоятельную регистрацию на сервер
+После первоначальной настройки меняем права на директорию /etc/gitea на 750
+```
+chmod 750 /etc/gitea
+```
