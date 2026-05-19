@@ -78,20 +78,20 @@ git --version
 ```
 adduser \
    --system \
-   --shell /bin/bash \
+   --shell /bin/false \
    --gecos 'Git Version Control' \
    --group \
    --disabled-password \
    --home /home/git \
-   git
+   gitea
 ```
 1) Создадим необходимые для работы директории и выдадим созданному юзеру права на них. Права 770 на директорию /etc/gitea выдаются только для первоначальной настройки. 
 ```
-mkdir -p /var/lib/gitea/{custom,data,log}
-chown -R git:git /var/lib/gitea/
-chmod -R 750 /var/lib/gitea/
+mkdir -p /mnt/data/gitea/{custom,data,log}
+chown -R gitea:gitea /mnt/data/gitea/
+chmod -R 750 /mnt/data/gitea/
 mkdir /etc/gitea
-chown root:git /etc/gitea
+chown root:gitea /etc/gitea
 chmod 770 /etc/gitea
 ```
 1) Создадим системный юнит для запуска gitea как сервиса systemd. Создадим файл юнита по пути /etc/systemd/system/gitea.service
