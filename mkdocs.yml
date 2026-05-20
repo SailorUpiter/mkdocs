@@ -35,7 +35,7 @@ extra:
     provider: google
     property: G-WJRFTNJP0B
 site_author: g.ryzhov
-copyright: Trustinfo.ru, 2025
+copyright: Sailor.lab, 2026
 markdown_extensions:
   - admonition
   - pymdownx.details
