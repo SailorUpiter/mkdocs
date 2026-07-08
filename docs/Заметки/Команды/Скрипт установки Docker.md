@@ -1,6 +1,6 @@
 #notes #comand #linux #docker
 ```
-curl -fsSL https://get.docker.com | sh -
+curl https://get.docker.com | sh -
 ```
 
 
