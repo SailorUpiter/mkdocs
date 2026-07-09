@@ -6,9 +6,8 @@ RUN apk add --update --no-cache --virtual .build-deps gcc musl-dev &&\
     pip install --no-cache-dir --requirement ./requirements.txt &&\
     apk del .build-deps &&\
     rm ./requirements.txt
-WORKDIR /d
+WORKDIR /mkdocs
 CMD ["mkdocs", "serve", "-a", "0.0.0.0:8000"]
-
 
 
 
