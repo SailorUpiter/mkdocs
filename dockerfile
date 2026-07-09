@@ -1,4 +1,4 @@
-FROM docker.io/library/python:alpine
+FROM  cr.yandex/crph0p4h6j9h7p8q/python:alpine
 WORKDIR /home/ubadmin/mkdocks
 COPY ./requirements.txt .
 RUN apk add --update --no-cache --virtual .build-deps gcc musl-dev &&\
