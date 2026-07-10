@@ -18,12 +18,10 @@ theme:
   icon:
     repo: fontawesome/brands/github
   features:
-    - content.code.copy
+    - content.code.copy 
     - navigation.instant
     - navigation.instant.progress
     - navigation.sections
-#    - navigation.tabs
-#    - navigation.tabs.sticky
     - navigation.path
     - navigation.top
     - navigation.prune   
