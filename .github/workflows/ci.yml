@@ -10,30 +10,33 @@ env: # Переменные окружения
   PLATFORMS: linux/amd64,linux/arm64
 
 jobs: # Список выполняемых джоб
-  need-build: # джоба проверки изменений в файлах. При изменении пулит новые файлы и перезапускает контейнер
+  need-build: # джоба проверки изменений в зависимостях. Если requirements.txt был изменен, то будет выполнена сборка и пуш образа
     runs-on: ubuntu-latest
     outputs:
-      src_changed: ${{ steps.filter.outputs.src }}
+      src_changed: ${{ steps.need-build.outputs.src }}
     steps:
       - uses: actions/checkout@v3
       - uses: dorny/paths-filter@v2
+        id: need-build
+        with:
+          filters: |
+            src:
+              - 'requirements.txt'
+
+  need-deploy: # джоба проверки изменений в файлах. При изменении пулит новые файлы и перезапускает контейнер
+    runs-on: ubuntu-latest
+    outputs:
+      src_changed: ${{ steps.need-deploy.outputs.src }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dorny/paths-filter@v2
+        id: need-deploy
         with:
           filters: |
             src:
               - 'docs/*'
               - 'mkdocs.yml'
 
-  need-deploy: # джоба проверки изменений в зависимостях. Если requirements.txt был изменен, то будет выполнена сборка и пуш образа
-    runs-on: ubuntu-latest
-    outputs:
-      src_changed: ${{ steps.filter.outputs.src }}
-    steps:
-      - uses: actions/checkout@v3
-      - uses: dorny/paths-filter@v2
-        with:
-          filters: |
-            src:
-              - 'requirements.txt'
 
   build: # джоба сборки и пуша образа. Выполняется если проверка изменений показала что requirements.txt был изменен
     needs: need-build
