@@ -7,6 +7,8 @@ RUN apk add --update --no-cache --virtual .build-deps gcc musl-dev &&\
     apk del .build-deps &&\
     rm ./requirements.txt
 WORKDIR /mkdocs
+COPY mkdocs.yml /mkdocs/mkdocs.yml
+COPY docs/* /mkdocs/docs/
 CMD ["mkdocs", "serve", "-a", "0.0.0.0:8000"]
 
 

@@ -22,6 +22,7 @@ jobs: # Список выполняемых джоб
           filters: |
             src:
               - 'requirements.txt'
+              - 'dockerfile'
 
   need-deploy: # джоба проверки изменений в файлах. При изменении пулит новые файлы и перезапускает контейнер
     runs-on: ubuntu-latest
@@ -85,7 +86,4 @@ jobs: # Список выполняемых джоб
         username: ${{ secrets.USER }}
         key: ${{ secrets.KEY }}
         script: |
-          cd /home/ubadmin/mkdocs
-          git pull origin main
-          sudo docker compose down
-          sudo docker compose up -d --build
+          sudo docker run -p 8000:8000 gitea.trastinfo.ru/sailor/mkdocs:latest
