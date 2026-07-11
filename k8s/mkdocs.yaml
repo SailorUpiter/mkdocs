@@ -1,0 +1,27 @@
+# deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sailor-mkdocs     # Имя вашего развертывания
+spec:
+  replicas: 2                # Желаемое количество запущенных экземпляров (подов)
+  selector:
+    matchLabels:
+      app: sailor-mkdocs            # Как Deployment будет находить свои поды
+  template:
+    metadata:
+      labels:
+        app: sailor-mkdocs          # Метка, которая будет присвоена подам
+    spec:
+      containers:
+      - name: mkdocs
+        image: gitea.trastinfo.ru/sailor/mkdocs:5d64ae8732c674d0e6d5132a0e8c7db1c4acc790 # ПУТЬ К ВАШЕМУ ОБРАЗУ!
+        ports:
+        - containerPort: 8000              # Порт, который слушает ваше приложение внутри контейнера
+        resources:                         # Рекомендуется указывать для планирования ресурсов
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "250m"
