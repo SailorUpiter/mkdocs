@@ -1,24 +1,47 @@
-# deployment.yaml
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: mkdocs
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sailor-mkdocs
+  labels:
+    app: sailor-mkdocs
+    service: sailor-mkdocs
+spec:
+  ports:
+  - name: http
+    port: 8080
+    targetPort: 8000
+  selector:
+    app: sailor-mkdocs
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sailor-mkdocs     # Имя вашего развертывания
+  name: sailor-mkdocs
+  namespace: mkdocs
 spec:
-  replicas: 2                # Желаемое количество запущенных экземпляров (подов)
+  replicas: 2
   selector:
     matchLabels:
-      app: sailor-mkdocs            # Как Deployment будет находить свои поды
+      app: sailor-mkdocs
   template:
     metadata:
       labels:
-        app: sailor-mkdocs          # Метка, которая будет присвоена подам
+        app: sailor-mkdocs
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: worker-2
       containers:
       - name: mkdocs
-        image: gitea.trastinfo.ru/sailor/mkdocs:5d64ae8732c674d0e6d5132a0e8c7db1c4acc790 # ПУТЬ К ВАШЕМУ ОБРАЗУ!
+        image: gitea.trastinfo.ru/sailor/mkdocs:7c2e6b6ecc3e32e5e4f59e6628af0a87d3acb005
         ports:
-        - containerPort: 8000              # Порт, который слушает ваше приложение внутри контейнера
-        resources:                         # Рекомендуется указывать для планирования ресурсов
+        - containerPort: 8000
+        resources:
           requests:
             memory: "128Mi"
             cpu: "100m"
